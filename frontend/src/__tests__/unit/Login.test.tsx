@@ -9,7 +9,7 @@ describe('Login Component', () => {
     render(
       <BrowserRouter>
         <Login />
-      </BrowserRouter>
+      </BrowserRouter>,
     );
 
     expect(screen.getByText('Login to your account')).toBeInTheDocument();
@@ -22,7 +22,7 @@ describe('Login Component', () => {
     render(
       <BrowserRouter>
         <Login />
-      </BrowserRouter>
+      </BrowserRouter>,
     );
 
     const emailInput = screen.getByLabelText('Email') as HTMLInputElement;

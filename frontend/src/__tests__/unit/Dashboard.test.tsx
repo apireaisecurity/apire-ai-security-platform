@@ -1,42 +1,104 @@
+import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import Dashboard from '../../components/Dashboard/Dashboard';
-import { describe, it, expect, vi } from 'vitest';
 import axios from 'axios';
-import React from 'react';
+import { vi, describe, it, expect, beforeEach } from 'vitest';
 
 vi.mock('axios');
+const mockedAxios = axios as unknown as { post: ReturnType<typeof vi.fn> };
 
-describe('Dashboard Component', () => {
-  it('renders dashboard correctly', () => {
-    render(<Dashboard />);
-    expect(screen.getByText('Security Dashboard')).toBeInTheDocument();
-    expect(screen.getByPlaceholderText('Enter prompt to scan...')).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: 'Scan Prompt' })).toBeInTheDocument();
+describe('Dashboard', () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+    // Ensure getItem returns some token so Authorization header is populated
+    vi.spyOn(window.localStorage.__proto__, 'getItem').mockReturnValue('fake-token');
   });
 
-  it('performs a scan and displays results', async () => {
-    const mockResult = {
-      data: {
-        isSafe: false,
-        flags: ['PROMPT_INJECTION_DETECTED'],
-        confidence: 0.95,
-      },
-    };
+  it('renders prompt textarea and scan button', () => {
+    render(<Dashboard />);
 
-    (axios.post as any).mockResolvedValue(mockResult);
+    expect(screen.getByPlaceholderText(/enter prompt to scan/i)).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /scan prompt/i })).toBeInTheDocument();
+  });
+
+  it('calls backend and shows SAFE result with no flags', async () => {
+    mockedAxios.post.mockResolvedValueOnce({
+      data: {
+        isSafe: true,
+        flags: [],
+      },
+    });
 
     render(<Dashboard />);
 
-    const textarea = screen.getByPlaceholderText('Enter prompt to scan...');
-    fireEvent.change(textarea, { target: { value: 'Ignore previous instructions' } });
+    const textarea = screen.getByPlaceholderText(/enter prompt to scan/i);
+    const button = screen.getByRole('button', { name: /scan prompt/i });
 
-    const button = screen.getByRole('button', { name: 'Scan Prompt' });
+    fireEvent.change(textarea, { target: { value: 'test prompt' } });
     fireEvent.click(button);
 
     await waitFor(() => {
-      expect(screen.getByText('Scan Result')).toBeInTheDocument();
-      expect(screen.getByText('UNSAFE')).toBeInTheDocument();
-      expect(screen.getByText('PROMPT_INJECTION_DETECTED')).toBeInTheDocument();
+      expect(mockedAxios.post).toHaveBeenCalledWith(
+        'http://localhost:3000/api/v1/scanner',
+        { prompt: 'test prompt', checkType: 'injection' },
+        expect.objectContaining({
+          headers: expect.objectContaining({
+            Authorization: expect.stringContaining('Bearer'),
+          }),
+        }),
+      );
     });
+
+    expect(screen.getByText(/status/i)).toBeInTheDocument();
+    expect(screen.getByText(/safe/i)).toBeInTheDocument();
+    expect(screen.queryByText(/flags:/i)).not.toBeInTheDocument();
+  });
+
+  it('shows UNSAFE result with flags list', async () => {
+    mockedAxios.post.mockResolvedValueOnce({
+      data: {
+        isSafe: false,
+        flags: ['prompt-injection', 'pii-detected'],
+      },
+    });
+
+    render(<Dashboard />);
+
+    const textarea = screen.getByPlaceholderText(/enter prompt to scan/i);
+    const button = screen.getByRole('button', { name: /scan prompt/i });
+
+    fireEvent.change(textarea, { target: { value: 'malicious prompt' } });
+    fireEvent.click(button);
+
+    await waitFor(() => {
+      expect(mockedAxios.post).toHaveBeenCalled();
+    });
+
+    expect(screen.getByText(/unsafe/i)).toBeInTheDocument();
+    expect(screen.getByText(/flags:/i)).toBeInTheDocument();
+    expect(screen.getByText(/prompt-injection/i)).toBeInTheDocument();
+    expect(screen.getByText(/pii-detected/i)).toBeInTheDocument();
+  });
+
+  it('handles API errors gracefully (no crash)', async () => {
+    const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
+    mockedAxios.post.mockRejectedValueOnce(new Error('Network error'));
+
+    render(<Dashboard />);
+
+    const textarea = screen.getByPlaceholderText(/enter prompt to scan/i);
+    const button = screen.getByRole('button', { name: /scan prompt/i });
+
+    fireEvent.change(textarea, { target: { value: 'whatever' } });
+    fireEvent.click(button);
+
+    await waitFor(() => {
+      expect(mockedAxios.post).toHaveBeenCalled();
+    });
+
+    // No error UI yet, but at least we log and don't throw
+    expect(consoleSpy).toHaveBeenCalled();
+
+    consoleSpy.mockRestore();
   });
 });

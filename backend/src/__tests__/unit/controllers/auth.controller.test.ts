@@ -16,10 +16,7 @@ describe('AuthController', () => {
         name: 'Test User',
       };
 
-      const response = await request(app)
-        .post('/api/v1/auth/register')
-        .send(userData)
-        .expect(201);
+      const response = await request(app).post('/api/v1/auth/register').send(userData).expect(201);
 
       expect(response.body).toHaveProperty('user');
       expect(response.body).toHaveProperty('token');
@@ -34,10 +31,7 @@ describe('AuthController', () => {
         name: 'Test User',
       };
 
-      const response = await request(app)
-        .post('/api/v1/auth/register')
-        .send(userData)
-        .expect(400);
+      const response = await request(app).post('/api/v1/auth/register').send(userData).expect(400);
 
       expect(response.body).toHaveProperty('error');
     });
@@ -50,16 +44,10 @@ describe('AuthController', () => {
       };
 
       // First registration
-      await request(app)
-        .post('/api/v1/auth/register')
-        .send(userData)
-        .expect(201);
+      await request(app).post('/api/v1/auth/register').send(userData).expect(201);
 
       // Duplicate registration
-      const response = await request(app)
-        .post('/api/v1/auth/register')
-        .send(userData)
-        .expect(409);
+      const response = await request(app).post('/api/v1/auth/register').send(userData).expect(409);
 
       expect(response.body.error).toBe('User already exists');
     });

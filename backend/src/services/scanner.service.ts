@@ -15,9 +15,12 @@ export class ScannerService {
 
     // Simple keyword matching for demonstration
     const lowerPrompt = input.prompt.toLowerCase();
-    
+
     if (input.checkType === 'injection' || !input.checkType) {
-      if (lowerPrompt.includes('ignore previous instructions') || lowerPrompt.includes('system prompt')) {
+      if (
+        lowerPrompt.includes('ignore previous instructions') ||
+        lowerPrompt.includes('system prompt')
+      ) {
         isSafe = false;
         flags.push('PROMPT_INJECTION_DETECTED');
       }
@@ -33,7 +36,7 @@ export class ScannerService {
 
     if (input.checkType === 'toxicity') {
       const toxicWords = ['hate', 'kill', 'stupid']; // Very basic list
-      if (toxicWords.some(word => lowerPrompt.includes(word))) {
+      if (toxicWords.some((word) => lowerPrompt.includes(word))) {
         isSafe = false;
         flags.push('TOXICITY_DETECTED');
       }

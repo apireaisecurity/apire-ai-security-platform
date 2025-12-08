@@ -21,5 +21,9 @@ export default defineConfig({
     command: 'npm run dev',
     url: 'http://localhost:5173',
     reuseExistingServer: !process.env.CI,
+    env: {
+      // Allow configuring backend URL for e2e tests
+      VITE_API_BASE_URL: process.env.VITE_API_BASE_URL || 'http://localhost:3000',
+    },
   },
 });

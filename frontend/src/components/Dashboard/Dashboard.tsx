@@ -1,22 +1,32 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 
+interface ScanResult {
+  isSafe: boolean;
+  flags: string[];
+}
+
 const Dashboard: React.FC = () => {
   const [prompt, setPrompt] = useState('');
-  const [result, setResult] = useState<any>(null);
+  const [result, setResult] = useState<ScanResult | null>(null);
+
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000';
 
   const handleScan = async () => {
     try {
-      // In a real app, use an environment variable for the API URL
-      const response = await axios.post('http://localhost:3000/api/v1/scanner', {
-        prompt,
-        checkType: 'injection',
-      }, {
-        headers: {
-          // In a real app, get the token from local storage or context
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
-        }
-      });
+      const response = await axios.post(
+        `${API_BASE_URL}/api/v1/scanner`,
+        {
+          prompt,
+          checkType: 'injection',
+        },
+        {
+          headers: {
+            // In a real app, get the token from local storage or context
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+          },
+        },
+      );
       setResult(response.data);
     } catch (error) {
       console.error('Scan failed', error);
@@ -26,7 +36,7 @@ const Dashboard: React.FC = () => {
   return (
     <div className="p-8">
       <h1 className="text-3xl font-bold mb-6">Security Dashboard</h1>
-      
+
       <div className="bg-white p-6 rounded-lg shadow-md mb-6">
         <h2 className="text-xl font-semibold mb-4">Prompt Scanner</h2>
         <textarea
@@ -48,7 +58,8 @@ const Dashboard: React.FC = () => {
         <div className={`p-6 rounded-lg shadow-md ${result.isSafe ? 'bg-green-50' : 'bg-red-50'}`}>
           <h2 className="text-xl font-semibold mb-2">Scan Result</h2>
           <p className="mb-2">
-            Status: <span className={`font-bold ${result.isSafe ? 'text-green-700' : 'text-red-700'}`}>
+            Status:{' '}
+            <span className={`font-bold ${result.isSafe ? 'text-green-700' : 'text-red-700'}`}>
               {result.isSafe ? 'SAFE' : 'UNSAFE'}
             </span>
           </p>
@@ -57,7 +68,9 @@ const Dashboard: React.FC = () => {
               <p className="font-semibold">Flags:</p>
               <ul className="list-disc list-inside">
                 {result.flags.map((flag: string, index: number) => (
-                  <li key={index} className="text-red-600">{flag}</li>
+                  <li key={index} className="text-red-600">
+                    {flag}
+                  </li>
                 ))}
               </ul>
             </div>

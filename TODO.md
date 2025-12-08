@@ -1,79 +1,86 @@
 # Project Task List: Apire AI Security Platform
 
-Based on `.github/Codex Instructions.md`, this task list outlines the end-to-end implementation plan.
+This TODO focuses on this single repo. Phase 1 reflects the current MVP; Phase 2 is a realistic next step.
 
-## Phase 1: Repository Initialization
-- [ ] **Root Configuration**
-    - [ ] Initialize `package.json` (workspace root)
-    - [ ] Create `.gitignore`, `.editorconfig`, `.nvmrc`
-    - [ ] Set up `tsconfig.json` (base config)
-    - [ ] Configure `eslint` and `prettier`
-- [ ] **Directory Structure**
-    - [ ] Create `backend/` structure
-    - [ ] Create `frontend/` structure
-    - [ ] Create `docs/` structure
-    - [ ] Create `scripts/` structure
-    - [ ] Create `kubernetes/` structure
+## Phase 1: MVP (Completed)
 
-## Phase 2: GitHub Automation
-- [ ] **Workflows** (`.github/workflows/`)
-    - [ ] `ci.yml`: Full CI pipeline (Lint, Test, Build)
-    - [ ] `cd.yml`: Deployment pipeline
-    - [ ] `docker-publish.yml`: Multi-arch Docker builds
-    - [ ] `security-scan.yml`: CodeQL, Trivy, Snyk
-    - [ ] `test-coverage.yml`: Coverage reporting
-    - [ ] `dependency-review.yml`: Dependency checks
-    - [ ] `release.yml`: Automated releases
-- [ ] **Templates & Governance**
-    - [ ] Issue Templates (`bug_report.yml`, `feature_request.yml`, `security.yml`)
-    - [ ] PR Template (`pull_request_template.md`)
-    - [ ] `CODEOWNERS`, `SECURITY.md`, `dependabot.yml`
+- [x] **Root & Structure**
+    - [x] Initialize `package.json` (workspace root)
+    - [x] Create `.gitignore`, `.editorconfig`, `.nvmrc`
+    - [x] Set up base `tsconfig.json`
+    - [x] Create `backend/`, `frontend/`, `docs/`, `scripts/`, `kubernetes/`
+- [x] **Backend MVP**
+    - [x] Express app with `/health`, `/api/v1/auth`, `/api/v1/scanner`
+    - [x] Auth module (controller, service, middleware, routes, in-memory model)
+    - [x] Scanner module (service, controller, routes)
+    - [x] Jest unit tests for health, auth controller, scanner service
+- [x] **Frontend MVP**
+    - [x] React/Vite app with login and dashboard
+    - [x] Basic routing
+    - [x] Unit tests for login and dashboard (Vitest + RTL)
+- [x] **Infra & Tooling**
+    - [x] Dockerfiles for backend/frontend (+ test variants)
+    - [x] `docker-compose.yml` and `docker-compose.test.yml`
+    - [x] Kubernetes base manifests (backend + frontend deployments and services)
+    - [x] Basic CI and security scan workflows
+    - [x] Shell scripts: `build.sh`, `test-all.sh`, `deploy.sh`
+- [x] **Docs & Governance**
+    - [x] `README.md`
+    - [x] `docs/ARCHITECTURE.md`, `docs/API.md`, `docs/TESTING.md`
+    - [x] Issue/PR templates, `SECURITY.md`, `CODEOWNERS`
 
-## Phase 3: Backend Development
-- [ ] **Core Setup**
-    - [ ] Initialize `backend/package.json` & dependencies
-    - [ ] Configure `backend/tsconfig.json`
-    - [ ] Set up `app.ts` and server entry point
-- [ ] **Modules & Features**
-    - [ ] **Auth Module**: Controller, Service, Middleware, Routes
-    - [ ] **Scanner Module**: Service, Controller (if applicable)
-    - [ ] **User Module**: Model, Controller
-- [ ] **Testing (Critical)**
-    - [ ] Set up Jest environment (`jest.config.js`, `setup.ts`)
-    - [ ] Implement `auth.controller.test.ts` (>200 lines, 15+ cases)
-    - [ ] Implement `scanner.service.test.ts` (>300 lines, 40+ cases)
-    - [ ] Implement `auth.middleware.test.ts`
-    - [ ] Achieve >85% code coverage
+## Phase 2: Quality, CI, and testing hardening (Next)
 
-## Phase 4: Frontend Development
-- [ ] **Core Setup**
-    - [ ] Initialize `frontend/package.json` (Vite/Next.js)
-    - [ ] Configure `frontend/tsconfig.json`
-    - [ ] Set up Router and State Management
-- [ ] **Components & Pages**
-    - [ ] **Dashboard**: Component & Tests
-    - [ ] **TestRunner**: Component & Tests
-    - [ ] **Auth**: Login/Register pages & Hooks
-- [ ] **Testing**
-    - [ ] Unit Tests: Components & Hooks (Jest/Vitest)
-    - [ ] E2E Tests: Playwright setup & scenarios (`login.spec.ts`, `dashboard.spec.ts`)
+### 2.1 CI & dependency hygiene
 
-## Phase 5: Infrastructure & DevOps
-- [ ] **Docker**
-    - [ ] `backend/Dockerfile` & `backend/Dockerfile.test`
-    - [ ] `frontend/Dockerfile` & `frontend/Dockerfile.test`
-    - [ ] `docker-compose.yml` (Dev) & `docker-compose.prod.yml`
-- [ ] **Kubernetes**
-    - [ ] Base manifests (`deployment.yaml`, `service.yaml`)
-    - [ ] Overlays (Dev, Staging, Prod)
-    - [ ] Helm Chart setup
-- [ ] **Scripts**
-    - [ ] `setup.sh`, `build.sh`, `test-all.sh`, `deploy.sh`
+- [ ] Add `.github/dependabot.yml` for:
+    - [ ] `github-actions`
+    - [ ] `npm` (root, `backend`, `frontend`)
+- [ ] Add `.github/workflows/test.yml` to:
+    - [ ] Run backend Jest tests with coverage
+    - [ ] Run frontend Vitest tests with coverage
+- [ ] Enforce coverage thresholds in CI:
+    - [ ] Backend coverage ≥ 80%
+    - [ ] Frontend coverage ≥ 80%
+- [ ] Ensure lint/format enforcement:
+    - [ ] Configure ESLint + Prettier in backend
+    - [ ] Configure ESLint + Prettier in frontend
+    - [ ] Run lint jobs in CI and fail on errors
 
-## Phase 6: Documentation
-- [ ] **Guides**
-    - [ ] `README.md` (Root)
-    - [ ] `docs/ARCHITECTURE.md`
-    - [ ] `docs/API.md`
-    - [ ] `docs/TESTING.md`
-    - [ ] `docs/guides/getting-started.md`
+### 2.2 Deeper automated testing
+
+- [ ] Backend integration tests (Jest + supertest):
+    - [ ] Register + login flow (`/api/v1/auth`)
+    - [ ] Authenticated scanner call (`/api/v1/scanner`)
+    - [ ] Validation error responses (invalid payloads)
+    - [ ] Unauthorized access to scanner
+- [ ] Frontend E2E improvements (Playwright):
+    - [ ] Parameterize backend base URL via env
+    - [ ] Add e2e scenario for failed login → error message
+- [ ] Scanner robustness tests:
+    - [ ] Empty prompt handling
+    - [ ] Very long prompt input
+    - [ ] Prompt triggering multiple flags (PII + injection + toxicity)
+
+### 2.3 Performance and security checks
+
+- [ ] Add k6 load test:
+    - [ ] `tests/perf/k6-login-and-scan.js` scenario
+    - [ ] NPM script `perf:k6` to run the scenario (document k6 requirement)
+- [ ] Extend security scanning:
+    - [ ] Add dependency vulnerability scan (e.g., `npm audit` or equivalent) for backend
+    - [ ] Add dependency vulnerability scan for frontend
+
+### 2.4 DevX & documentation
+
+- [ ] Enhance `scripts/test-all.sh` to:
+    - [ ] Run backend unit + integration tests
+    - [ ] Run frontend unit tests
+    - [ ] Optionally run Playwright e2e via env flag
+- [ ] Add `.env.example` files:
+    - [ ] Backend env example (JWT secret, ports, etc.)
+    - [ ] Frontend env example (API base URL, etc.)
+- [ ] Update `docs/TESTING.md` to cover:
+    - [ ] Coverage goals and local commands
+    - [ ] k6 load test usage
+    - [ ] High-level overview of CI workflows
