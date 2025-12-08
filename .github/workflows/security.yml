@@ -1,0 +1,105 @@
+name: Security
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+  schedule:
+    # Run security checks weekly on Monday at 9am UTC
+    - cron: '0 9 * * 1'
+
+jobs:
+  dependency-audit:
+    name: Dependency Vulnerability Audit
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+          cache-dependency-path: |
+            package.json
+            backend/package.json
+            frontend/package.json
+      
+      - name: Install dependencies
+        run: npm install
+      
+      - name: Audit root dependencies
+        run: |
+          echo "🔍 Auditing root workspace..."
+          npm audit --audit-level=moderate || echo "⚠️ Root workspace has vulnerabilities"
+      
+      - name: Audit backend dependencies
+        working-directory: ./backend
+        run: |
+          echo "🔍 Auditing backend workspace..."
+          npm audit --audit-level=moderate || echo "⚠️ Backend workspace has vulnerabilities"
+      
+      - name: Audit frontend dependencies
+        working-directory: ./frontend
+        run: |
+          echo "🔍 Auditing frontend workspace..."
+          npm audit --audit-level=moderate || echo "⚠️ Frontend workspace has vulnerabilities"
+      
+      - name: Generate audit report
+        if: always()
+        run: |
+          echo "# Security Audit Report" > audit-report.md
+          echo "" >> audit-report.md
+          echo "## Root Workspace" >> audit-report.md
+          npm audit --json > root-audit.json || true
+          echo "\`\`\`json" >> audit-report.md
+          cat root-audit.json >> audit-report.md
+          echo "\`\`\`" >> audit-report.md
+          echo "" >> audit-report.md
+          echo "## Backend Workspace" >> audit-report.md
+          cd backend && npm audit --json > ../backend-audit.json || true
+          cd ..
+          echo "\`\`\`json" >> audit-report.md
+          cat backend-audit.json >> audit-report.md
+          echo "\`\`\`" >> audit-report.md
+          echo "" >> audit-report.md
+          echo "## Frontend Workspace" >> audit-report.md
+          cd frontend && npm audit --json > ../frontend-audit.json || true
+          cd ..
+          echo "\`\`\`json" >> audit-report.md
+          cat frontend-audit.json >> audit-report.md
+          echo "\`\`\`" >> audit-report.md
+      
+      - name: Upload audit report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: security-audit-report
+          path: |
+            audit-report.md
+            root-audit.json
+            backend-audit.json
+            frontend-audit.json
+          retention-days: 30
+
+  codeql-analysis:
+    name: CodeQL Security Analysis
+    runs-on: ubuntu-latest
+    permissions:
+      security-events: write
+      actions: read
+      contents: read
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v3
+        with:
+          languages: javascript-typescript
+          queries: security-extended
+      
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v3
+        with:
+          category: "/language:javascript-typescript"

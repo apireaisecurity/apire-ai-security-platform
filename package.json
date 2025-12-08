@@ -11,6 +11,7 @@
     "test": "npm run test --workspaces",
     "lint": "npm run lint --workspaces",
     "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,md}\"",
+    "perf:k6": "k6 run tests/perf/k6-login-and-scan.js",
     "prepare": "husky install"
   },
   "devDependencies": {

@@ -22,6 +22,16 @@ test('shows login form elements', async ({ page }) => {
   await expect(page.getByRole('button', { name: 'Login' })).toBeVisible();
 });
 
+test('failed login shows error message', async ({ page }) => {
+  await page.goto('/login');
+
+  await page.getByLabel('Email').fill('wrong@example.com');
+  await page.getByLabel('Password').fill('WrongPass123!');
+  await page.getByRole('button', { name: 'Login' }).click();
+
+  await expect(page.getByRole('alert')).toBeVisible();
+});
+
 test('dashboard scan flow', async ({ page }) => {
   await page.goto('/');
 
