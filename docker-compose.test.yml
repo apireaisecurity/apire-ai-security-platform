@@ -1,0 +1,16 @@
+version: '3.8'
+
+services:
+  backend-test:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.test
+    environment:
+      - CI=true
+
+  frontend-test:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.test
+    environment:
+      - CI=true
