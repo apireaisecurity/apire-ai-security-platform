@@ -1,5 +1,7 @@
 # Test Report: Apire AI Security Platform
 
+> **⚠️ HISTORICAL DOCUMENT**: This test report is from an earlier phase of the project when the Core Platform was part of the architecture. The platform now consists of three independent security tools: Prompt Shield, RedTeam Kit, and Compliance Checker. For current testing documentation, see [docs/TESTING.md](docs/TESTING.md).
+
 **Date**: December 9, 2025
 **Environment**: Local Development (Simulating GitHub Codespaces)
 **Status**: ✅ PASSED
