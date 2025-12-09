@@ -1,16 +1,12 @@
 {
   "name": "Apire AI Security Platform",
-  "dockerComposeFile": [
-    "../docker-compose.yml",
-    "../apire-prompt-shield/docker-compose.yml",
-    "../apire-redteam-kit/docker-compose.yml",
-    "../apire-compliance-checker/docker-compose.yml"
-  ],
-  "service": "api",
-  "workspaceFolder": "/workspace",
+  "image": "mcr.microsoft.com/devcontainers/typescript-node:1-18-bullseye",
   "features": {
-    "ghcr.io/devcontainers/features/node:1": {},
-    "ghcr.io/devcontainers/features/docker-in-docker:2": {},
+    "ghcr.io/devcontainers/features/docker-in-docker:2": {
+      "version": "latest",
+      "enableNonRootDocker": "true",
+      "moby": "true"
+    },
     "ghcr.io/devcontainers/features/git:1": {}
   },
   "forwardPorts": [3000, 5173, 3001, 3002, 3005, 3006, 3003, 3004],
@@ -36,5 +32,11 @@
     }
   },
   "postCreateCommand": "./scripts/setup-codespace.sh",
-  "postStartCommand": "./scripts/welcome.sh"
+  "postStartCommand": "./scripts/welcome.sh",
+  "remoteUser": "node",
+  "containerEnv": {
+    "CODESPACE_NAME": "${localEnv:CODESPACE_NAME}",
+    "GITHUB_TOKEN": "${localEnv:GITHUB_TOKEN}"
+  },
+  "onCreateCommand": "chmod +x scripts/*.sh"
 }

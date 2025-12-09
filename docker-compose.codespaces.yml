@@ -1,0 +1,165 @@
+version: '3.8'
+
+services:
+  # ---------------------------------------------------------------------------
+  # Core Platform
+  # ---------------------------------------------------------------------------
+  core-backend:
+    build: ./backend
+    ports:
+      - "3000:3000"
+    environment:
+      - PORT=3000
+      - JWT_SECRET=dev_secret
+      - DATABASE_URL=postgres://postgres:postgres@core-postgres:5432/apire_core
+    depends_on:
+      - core-postgres
+    volumes:
+      - ./backend/src:/app/src
+
+  core-frontend:
+    build: ./frontend
+    ports:
+      - "5173:5173"
+    environment:
+      - VITE_API_URL=http://localhost:3000
+    volumes:
+      - ./frontend/src:/app/src
+    depends_on:
+      - core-backend
+
+  core-postgres:
+    image: postgres:15-alpine
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=apire_core
+    ports:
+      - "5432:5432"
+    volumes:
+      - core_postgres_data:/var/lib/postgresql/data
+
+  # ---------------------------------------------------------------------------
+  # Prompt Shield
+  # ---------------------------------------------------------------------------
+  shield-api:
+    build: ./apire-prompt-shield/backend
+    ports:
+      - "3001:3001"
+    environment:
+      - PORT=3001
+      - DATABASE_URL=postgres://postgres:postgres@shield-postgres:5432/prompt_shield
+      - REDIS_URL=redis://shield-redis:6379
+    depends_on:
+      - shield-postgres
+      - shield-redis
+    volumes:
+      - ./apire-prompt-shield/backend/src:/app/src
+
+  shield-web:
+    build: ./apire-prompt-shield/frontend
+    ports:
+      - "3002:80"
+    depends_on:
+      - shield-api
+
+  shield-postgres:
+    image: postgres:15-alpine
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=prompt_shield
+    ports:
+      - "5433:5432"
+    volumes:
+      - shield_postgres_data:/var/lib/postgresql/data
+
+  shield-redis:
+    image: redis:7-alpine
+    ports:
+      - "6380:6379"
+
+  # ---------------------------------------------------------------------------
+  # Compliance Checker
+  # ---------------------------------------------------------------------------
+  compliance-api:
+    build: ./apire-compliance-checker/backend
+    ports:
+      - "3003:3000"
+    environment:
+      - PORT=3000
+      - DATABASE_URL=postgres://postgres:postgres@compliance-postgres:5432/compliance
+      - REDIS_URL=redis://compliance-redis:6379
+    depends_on:
+      - compliance-postgres
+      - compliance-redis
+    volumes:
+      - ./apire-compliance-checker/backend/src:/app/src
+
+  compliance-web:
+    build: ./apire-compliance-checker/frontend
+    ports:
+      - "3004:80"
+    depends_on:
+      - compliance-api
+
+  compliance-postgres:
+    image: postgres:15-alpine
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=compliance
+    ports:
+      - "5434:5432"
+    volumes:
+      - compliance_postgres_data:/var/lib/postgresql/data
+
+  compliance-redis:
+    image: redis:alpine
+    ports:
+      - "6381:6379"
+
+  # ---------------------------------------------------------------------------
+  # RedTeam Kit
+  # ---------------------------------------------------------------------------
+  redteam-api:
+    build: ./apire-redteam-kit/backend
+    ports:
+      - "3005:3000"
+    environment:
+      - PORT=3000
+      - MONGODB_URI=mongodb://redteam-mongo:27017/redteam
+      - RABBITMQ_URI=amqp://redteam-rabbitmq:5672
+    depends_on:
+      - redteam-mongo
+      - redteam-rabbitmq
+    volumes:
+      - ./apire-redteam-kit/backend/src:/app/src
+
+  redteam-web:
+    build: ./apire-redteam-kit/frontend
+    ports:
+      - "3006:3000"
+    environment:
+      - NEXT_PUBLIC_API_URL=http://localhost:3005
+    depends_on:
+      - redteam-api
+
+  redteam-mongo:
+    image: mongo:6.0
+    ports:
+      - "27017:27017"
+    volumes:
+      - redteam_mongo_data:/data/db
+
+  redteam-rabbitmq:
+    image: rabbitmq:3-management
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+
+volumes:
+  core_postgres_data:
+  shield_postgres_data:
+  compliance_postgres_data:
+  redteam_mongo_data:

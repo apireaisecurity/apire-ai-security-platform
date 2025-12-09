@@ -33,6 +33,7 @@ You can run the entire platform directly in your browser using GitHub Codespaces
 GitHub will spin up a cloud environment, build all Docker containers, and forward the ports so you can access the applications.
 
 👉 **[Read the Full Deployment Guide](./docs/DEPLOY_ON_CODESPACES.md)** for detailed instructions.
+👉 **[Setup Prebuilds](./docs/CODESPACES_PREBUILD.md)** to speed up Codespace creation (optional but recommended).
 
 ### Prerequisites
 
