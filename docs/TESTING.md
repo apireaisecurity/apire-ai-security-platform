@@ -1,13 +1,12 @@
 # Testing Guide
 
-This document describes the comprehensive testing strategy for the Apire AI Security Platform, including unit tests, integration tests, E2E tests, performance tests, and security checks.
+This document describes the comprehensive testing strategy for the Apire AI Security Platform's three security tools: Prompt Shield, RedTeam Kit, and Compliance Checker.
 
 ## Table of Contents
 
 - [Testing Strategy](#testing-strategy)
 - [Coverage Goals](#coverage-goals)
-- [Backend Testing](#backend-testing)
-- [Frontend Testing](#frontend-testing)
+- [Testing by Tool](#testing-by-tool)
 - [Performance Testing](#performance-testing)
 - [Security Testing](#security-testing)
 - [CI/CD Workflows](#cicd-workflows)
@@ -15,7 +14,7 @@ This document describes the comprehensive testing strategy for the Apire AI Secu
 
 ## Testing Strategy
 
-We employ a multi-layered testing approach:
+We employ a multi-layered testing approach across all three tools:
 
 1. **Unit Tests**: Test individual functions and components in isolation
 2. **Integration Tests**: Test API endpoints and service interactions
@@ -27,126 +26,108 @@ We employ a multi-layered testing approach:
 
 We enforce strict coverage thresholds in CI to maintain code quality:
 
-| Metric     | Threshold | Backend Current | Frontend Current |
-| ---------- | --------- | --------------- | ---------------- |
-| Statements | ≥ 80%     | 92.24%          | 100%             |
-| Branches   | ≥ 80%     | 88.46%          | 95.45%           |
-| Functions  | ≥ 80%     | 84.61%          | 100%             |
-| Lines      | ≥ 80%     | 92.8%           | 100%             |
+| Metric     | Threshold | Target |
+| ---------- | --------- | ------ |
+| Statements | ≥ 80%     | 90%+   |
+| Branches   | ≥ 80%     | 85%+   |
+| Functions  | ≥ 80%     | 85%+   |
+| Lines      | ≥ 80%     | 90%+   |
 
 **Coverage is enforced in CI** - PRs that drop coverage below thresholds will fail.
 
-## Backend Testing
+## Testing by Tool
 
-### Framework & Tools
+### Prompt Shield
 
-- **Unit Tests**: Jest + ts-jest
-- **Integration Tests**: Jest + supertest
-- **Location**: `backend/src/__tests__/`
-  - `unit/` - Unit tests for services, controllers, middleware
-  - `integration/` - HTTP-level API tests
+**Framework & Tools**:
+- **Backend**: Jest + ts-jest + supertest
+- **Frontend**: Vitest + React Testing Library
+- **E2E**: Playwright
+- **Location**: `apire-prompt-shield/backend/src/__tests__/` and `apire-prompt-shield/frontend/src/__tests__/`
 
-### Running Backend Tests
-
+**Running Tests**:
 ```bash
-# Run all tests
-cd backend
+# Backend tests
+cd apire-prompt-shield/backend
 npm test
 
-# Run with coverage
-npm test -- --coverage
-
-# Run specific test file
-npm test -- scanner.service.test.ts
-
-# Run in watch mode
-npm test -- --watch
-
-# Run integration tests only
-npm test -- integration
-```
-
-### Test Structure
-
-```
-backend/src/__tests__/
-├── unit/
-│   ├── controllers/
-│   │   ├── auth.controller.test.ts
-│   │   └── scanner.controller.test.ts
-│   ├── middleware/
-│   │   └── auth.middleware.test.ts
-│   ├── services/
-│   │   ├── auth.service.test.ts
-│   │   └── scanner.service.test.ts
-│   └── health.test.ts
-└── integration/
-    └── api.integration.test.ts
-```
-
-### Backend Test Coverage
-
-**Unit Tests (18 tests)**:
-
-- Health endpoint
-- Auth controller (register, login, validation)
-- Scanner controller (validation, error handling)
-- Auth middleware (JWT validation)
-- Scanner service (threat detection, edge cases)
-
-**Integration Tests (12 tests)**:
-
-- Register flow (success, validation errors, duplicate email)
-- Login flow (success, wrong password, non-existent user)
-- Scanner flow (authenticated success, unauthorized, validation, threat detection)
-
-## Frontend Testing
-
-### Framework & Tools
-
-- **Unit Tests**: Vitest + React Testing Library
-- **E2E Tests**: Playwright
-- **Coverage**: @vitest/coverage-v8
-- **Location**: `frontend/src/__tests__/`
-  - `unit/` - Component tests
-  - `e2e/` - End-to-end browser tests
-
-### Running Frontend Tests
-
-```bash
-# Run unit tests
-cd frontend
+# Frontend tests
+cd apire-prompt-shield/frontend
 npm test
 
-# Run with coverage
-npm test -- --coverage
-
-# Run in watch mode
-npm run test:watch
-
-# Run E2E tests (requires backend running on :3000)
-npm run test:e2e
-
-# Run E2E in headed mode (see the browser)
-npx playwright test --headed
-
-# Run specific E2E test
-npx playwright test app.spec.ts
+# E2E tests
+cd apire-prompt-shield
+# E2E tests
+cd apire-prompt-shield
+npx playwright test
 ```
 
-### Test Structure
+**Test Coverage Areas**:
+- Injection detection algorithms
+- PII scanning and redaction
+- Risk scoring accuracy
+- API endpoint validation
+- Frontend user flows
 
-```
-frontend/src/__tests__/
-├── unit/
-│   ├── Login.test.tsx
-│   └── Dashboard.test.tsx
-├── e2e/
-│   └── app.spec.ts
-└── setup.ts
+### RedTeam Kit
+
+**Framework & Tools**:
+- **Backend**: Jest + ts-jest + supertest (NestJS testing)
+- **Frontend**: Jest + React Testing Library (Next.js)
+- **E2E**: Playwright
+- **Location**: `apire-redteam-kit/backend/test/` and `apire-redteam-kit/frontend/__tests__/`
+
+**Running Tests**:
+```bash
+# Backend tests
+cd apire-redteam-kit/backend
+npm test
+
+# Frontend tests
+cd apire-redteam-kit/frontend
+npm test
+
+# E2E tests
+cd apire-redteam-kit
+npx playwright test
 ```
 
-### Frontend Test Coverage
+**Test Coverage Areas**:
+- Attack scenario execution
+- Report generation
+- Simulation orchestration
+- MongoDB integration
+- RabbitMQ message handling
+
+### Compliance Checker
+
+**Framework & Tools**:
+- **Backend**: Jest + ts-jest + supertest
+- **Frontend**: Vitest + Vue Test Utils
+- **E2E**: Playwright
+- **Location**: `apire-compliance-checker/backend/src/__tests__/` and `apire-compliance-checker/frontend/src/__tests__/`
+
+**Running Tests**:
+```bash
+# Backend tests
+cd apire-compliance-checker/backend
+npm test
+
+# Frontend tests
+cd apire-compliance-checker/frontend
+npm test
+
+# E2E tests
+cd apire-compliance-checker
+npx playwright test
+```
+
+**Test Coverage Areas**:
+- Policy validation logic
+- Framework compliance checks
+- Elasticsearch integration
+- Audit report generation
+- Remediation recommendations
 
 **Unit Tests (9 tests)**:
 

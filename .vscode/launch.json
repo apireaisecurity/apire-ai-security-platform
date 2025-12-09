@@ -4,15 +4,6 @@
     {
       "type": "node",
       "request": "launch",
-      "name": "Debug Core Backend",
-      "skipFiles": ["<node_internals>/**"],
-      "program": "${workspaceFolder}/backend/src/app.ts",
-      "runtimeArgs": ["-r", "ts-node/register"],
-      "env": { "PORT": "3000" }
-    },
-    {
-      "type": "node",
-      "request": "launch",
       "name": "Debug Prompt Shield API",
       "skipFiles": ["<node_internals>/**"],
       "program": "${workspaceFolder}/apire-prompt-shield/backend/src/app.ts",
@@ -42,7 +33,6 @@
     {
       "name": "Debug All Backends",
       "configurations": [
-        "Debug Core Backend",
         "Debug Prompt Shield API",
         "Debug Compliance API",
         "Debug RedTeam API (NestJS)"
