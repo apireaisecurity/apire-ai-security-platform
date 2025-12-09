@@ -9,17 +9,19 @@
     "test": "echo 'No tests configured for compliance-checker-frontend'"
   },
   "dependencies": {
-    "vue": "^3.3.8",
-    "vuetify": "^3.4.0",
+    "@mdi/font": "^7.3.67",
+    "next": "14.2.33",
     "pinia": "^2.1.7",
+    "puppeteer": "24.32.1",
+    "vue": "^3.3.8",
     "vue-router": "^4.2.5",
-    "@mdi/font": "^7.3.67"
+    "vuetify": "^3.4.0"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^4.5.0",
     "typescript": "^5.2.2",
-    "vite": "^5.0.0",
-    "vue-tsc": "^1.8.22",
-    "vite-plugin-vuetify": "^1.0.2"
+    "vite": "^6.4.1",
+    "vite-plugin-vuetify": "^1.0.2",
+    "vue-tsc": "^3.1.8"
   }
 }
