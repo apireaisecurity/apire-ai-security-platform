@@ -53,23 +53,35 @@ else
   echo -e "${GREEN}✓ Frontend tests passed${NC}"
 fi
 
+if [ "$RUN_E2E" = true ]; then
+  echo -e "${YELLOW}🎭 Running E2E Tests...${NC}"
+  npx playwright test
+  echo -e "${GREEN}✓ E2E tests passed${NC}"
+fi
+
 cd ..
 echo ""
 
-# E2E tests (optional)
-if [ "$RUN_E2E" = true ]; then
-  echo -e "${YELLOW}🌐 Running E2E tests...${NC}"
-  echo -e "${BLUE}ℹ️  Note: Backend server must be running on port 3000${NC}"
-  cd frontend
-  npx playwright test
-  echo -e "${GREEN}✓ E2E tests passed${NC}"
-  cd ..
-  echo ""
-fi
+# New Tools Tests
+echo -e "${YELLOW}🛡️  Testing APIRE Prompt Shield...${NC}"
+cd apire-prompt-shield
+npm test
+cd ..
+echo ""
 
-echo -e "${GREEN}╔════════════════════════════════════════╗${NC}"
-echo -e "${GREEN}║     ✓ All Tests Passed Successfully!    ║${NC}"
-echo -e "${GREEN}╚════════════════════════════════════════╝${NC}"
+echo -e "${YELLOW}🔴 Testing APIRE RedTeam Kit...${NC}"
+cd apire-redteam-kit
+npm test
+cd ..
+echo ""
+
+echo -e "${YELLOW}📋 Testing APIRE Compliance Checker...${NC}"
+cd apire-compliance-checker
+npm test
+cd ..
+echo ""
+
+echo -e "${GREEN}✨ All tests passed successfully! ✨${NC}"
 echo ""
 echo -e "${BLUE}Summary:${NC}"
 echo -e "  • Backend: Unit + Integration tests ✓"

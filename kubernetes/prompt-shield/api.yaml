@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: prompt-shield-api
+  labels:
+    app: prompt-shield-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: prompt-shield-api
+  template:
+    metadata:
+      labels:
+        app: prompt-shield-api
+    spec:
+      containers:
+      - name: api
+        image: apire-prompt-shield-api:latest
+        ports:
+        - containerPort: 3000
+        env:
+        - name: PORT
+          value: "3000"
+        - name: REDIS_URL
+          value: "redis://redis:6379"
+        - name: DATABASE_URL
+          value: "postgresql://postgres:postgres@postgres:5432/prompt_shield"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: prompt-shield-api
+spec:
+  selector:
+    app: prompt-shield-api
+  ports:
+    - protocol: TCP
+      port: 3001
+      targetPort: 3000
+  type: ClusterIP

@@ -1,0 +1,39 @@
+version: '3.8'
+
+services:
+  api:
+    build: ./backend
+    ports:
+      - "3003:3000"
+    environment:
+      - DATABASE_URL=postgresql://postgres:postgres@postgres:5432/compliance
+      - REDIS_URL=redis://redis:6379
+    depends_on:
+      - postgres
+      - redis
+
+  web:
+    build: ./frontend
+    ports:
+      - "3004:80"
+    depends_on:
+      - api
+
+  postgres:
+    image: postgres:15-alpine
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=compliance
+    ports:
+      - "5434:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  redis:
+    image: redis:alpine
+    ports:
+      - "6381:6379"
+
+volumes:
+  postgres_data:

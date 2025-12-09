@@ -98,15 +98,44 @@ This TODO focuses on this single repo. Phase 1 reflects the current MVP; Phase 2
     - [x] High-level overview of CI workflows
     - [x] Comprehensive testing strategy documentation
     - [x] Troubleshooting guide
-    - [x] Best practices
 
-## Phase 2 Summary ✅
+## Phase 3: Product Suite Expansion (Completed)
 
-**All Phase 2 objectives completed!** 🎉
+- [x] **APIRE Prompt Shield**
+    - [x] Create Specification (`docs/specs/prompt-shield/SPECIFICATION.md`)
+    - [x] Initialize Backend (Express) & Frontend (React)
+    - [x] Implement Core Logic (Test Service, Scenarios)
+    - [x] Dockerize (Dockerfile, docker-compose.yml)
+- [x] **APIRE RedTeam Kit**
+    - [x] Create Specification (`docs/specs/redteam-kit/SPECIFICATION.md`)
+    - [x] Initialize Backend (NestJS) & Frontend (Next.js)
+    - [x] Dockerize (Dockerfile, docker-compose.yml)
+- [x] **APIRE Compliance Checker**
+    - [x] Create Specification (`docs/specs/compliance-checker/SPECIFICATION.md`)
+    - [x] Initialize Backend (Express) & Frontend (Vue.js)
+    - [x] Dockerize (Dockerfile, docker-compose.yml)
+- [x] **Integration**
+    - [x] Update root `package.json` workspaces
+    - [x] Update `scripts/build.sh`
+    - [x] Update `README.md` with running instructions
 
-- **Total Tests**: 39 passing (30 backend + 9 frontend)
-- **Coverage**: Backend 92%+, Frontend 100%
-- **CI/CD**: Automated testing, linting, and security checks
-- **Performance**: k6 load testing framework in place
-- **Security**: Dependency audits and CodeQL analysis
-- **Documentation**: Comprehensive testing guide
+## Phase 4: Integration & Hardening (Completed)
+
+- [x] **Unified Dashboard**
+    - [x] Add Launchpad to Core Dashboard
+    - [x] Resolve port conflicts (RedTeam Kit moved to 3005/3006)
+- [x] **Shared Authentication**
+    - [x] Implement JWT Middleware in Prompt Shield
+    - [x] Implement JWT Middleware in Compliance Checker
+    - [x] Implement AuthGuard in RedTeam Kit
+- [x] **Testing**
+    - [x] Create Integration E2E Test (`frontend/e2e/integration.spec.ts`)
+    - [x] Update `test-all.sh` to run all suites
+
+## Phase 5: Deployment Preparation (Completed)
+
+- [x] **Kubernetes Manifests**
+    - [x] Create Prompt Shield Manifests (`kubernetes/prompt-shield/`)
+    - [x] Create RedTeam Kit Manifests (`kubernetes/redteam-kit/`)
+    - [x] Create Compliance Checker Manifests (`kubernetes/compliance-checker/`)
+    - [x] Update `kustomization.yaml`

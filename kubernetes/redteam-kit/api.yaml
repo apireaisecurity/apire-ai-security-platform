@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: redteam-kit-api
+  labels:
+    app: redteam-kit-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: redteam-kit-api
+  template:
+    metadata:
+      labels:
+        app: redteam-kit-api
+    spec:
+      containers:
+      - name: api
+        image: apire-redteam-kit-api:latest
+        ports:
+        - containerPort: 3000
+        env:
+        - name: MONGODB_URI
+          value: "mongodb://mongo:27017/redteam"
+        - name: RABBITMQ_URI
+          value: "amqp://rabbitmq:5672"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: redteam-kit-api
+spec:
+  selector:
+    app: redteam-kit-api
+  ports:
+    - protocol: TCP
+      port: 3005
+      targetPort: 3000
+  type: ClusterIP

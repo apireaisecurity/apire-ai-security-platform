@@ -4,7 +4,13 @@
   "private": true,
   "workspaces": [
     "backend",
-    "frontend"
+    "frontend",
+    "apire-prompt-shield/backend",
+    "apire-prompt-shield/frontend",
+    "apire-redteam-kit/backend",
+    "apire-redteam-kit/frontend",
+    "apire-compliance-checker/backend",
+    "apire-compliance-checker/frontend"
   ],
   "scripts": {
     "build": "npm run build --workspaces",

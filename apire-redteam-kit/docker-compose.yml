@@ -1,0 +1,38 @@
+version: '3.8'
+
+services:
+  api:
+    build: ./backend
+    ports:
+      - "3005:3000"
+    environment:
+      - MONGODB_URI=mongodb://mongo:27017/redteam
+      - RABBITMQ_URI=amqp://rabbitmq:5672
+    depends_on:
+      - mongo
+      - rabbitmq
+
+  web:
+    build: ./frontend
+    ports:
+      - "3006:3000"
+    environment:
+      - NEXT_PUBLIC_API_URL=http://localhost:3005
+    depends_on:
+      - api
+
+  mongo:
+    image: mongo:6.0
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+
+volumes:
+  mongo_data:

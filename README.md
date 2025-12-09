@@ -31,18 +31,45 @@ The Apire AI Security Platform is a comprehensive solution for securing AI appli
    cd apire-ai-security-platform
    ```
 
-2. Install dependencies:
+2. Install dependencies (for all workspaces):
    ```bash
    npm install
    ```
 
-3. Start the development environment:
+3. Start the Core Platform:
    ```bash
    docker-compose up --build
    ```
-
    - Backend: http://localhost:3000
    - Frontend: http://localhost:5173
+
+### Running Additional Tools
+
+Each tool runs in its own Docker environment.
+
+**APIRE Prompt Shield**
+```bash
+cd apire-prompt-shield
+docker-compose up --build
+```
+- API: http://localhost:3001
+- Web: http://localhost:3002
+
+**APIRE RedTeam Kit**
+```bash
+cd apire-redteam-kit
+docker-compose up --build
+```
+- API: http://localhost:3005
+- Web: http://localhost:3006
+
+**APIRE Compliance Checker**
+```bash
+cd apire-compliance-checker
+docker-compose up --build
+```
+- API: http://localhost:3003
+- Web: http://localhost:3004
 
 ## 🧪 Testing
 

@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: redteam-kit-web
+  labels:
+    app: redteam-kit-web
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: redteam-kit-web
+  template:
+    metadata:
+      labels:
+        app: redteam-kit-web
+    spec:
+      containers:
+      - name: web
+        image: apire-redteam-kit-web:latest
+        ports:
+        - containerPort: 3000
+        env:
+        - name: NEXT_PUBLIC_API_URL
+          value: "http://redteam-kit-api:3005"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: redteam-kit-web
+spec:
+  selector:
+    app: redteam-kit-web
+  ports:
+    - protocol: TCP
+      port: 3006
+      targetPort: 3000
+  type: ClusterIP
