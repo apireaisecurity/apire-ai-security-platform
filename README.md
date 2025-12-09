@@ -109,6 +109,16 @@ Run all tests:
 - [Architecture](./docs/ARCHITECTURE.md)
 - [API Reference](./docs/API.md)
 - [Testing Guide](./docs/TESTING.md)
+- [Deployment Guide](./docs/DEPLOY_ON_CODESPACES.md)
+
+Full documentation is available in the [GitHub Wiki](https://github.com/apireaisecurity/apire-ai-security-platform/wiki).
+
+To publish updates to the Wiki:
+1. Initialize the Wiki in the GitHub UI (click "Create the first page").
+2. Run the publish script:
+   ```bash
+   ./scripts/publish-wiki.sh
+   ```
 
 ## 🤝 Contributing
 
