@@ -17,6 +17,7 @@ The application is composed of 5 main containers:
 We use multi-stage Docker builds to keep image sizes small and secure.
 
 ### Example: API Dockerfile
+
 ```dockerfile
 # Stage 1: Build
 FROM node:20-alpine AS builder
@@ -37,13 +38,15 @@ CMD ["node", "dist/main.js"]
 ## Docker Compose
 
 ### Development (`docker-compose.yml`)
+
 Optimized for hot-reloading and debugging. Mounts source code as volumes.
 
 ### Production
+
 For production, use the built images and remove volume mounts for code.
 
 ```yaml
-version: '3.8'
+version: "3.8"
 services:
   api:
     image: apire/prompt-shield-api:latest
@@ -62,13 +65,16 @@ services:
 For production scaling, we recommend Kubernetes.
 
 ### Manifests
+
 Located in `k8s/`:
+
 - `deployment-api.yaml`: Scalable API deployment.
 - `deployment-worker.yaml`: Scalable Worker deployment (HPA supported).
 - `service-api.yaml`: Load balancer for API.
 - `ingress.yaml`: Ingress controller configuration.
 
 ### Scaling Strategy
+
 - **API**: Scale based on CPU/Memory usage.
 - **Worker**: Scale based on Queue Length (Custom Metric).
 

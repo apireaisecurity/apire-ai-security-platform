@@ -40,14 +40,12 @@
      - Created `frontend/src/vite-env.d.ts` for TypeScript typing
      - Both Dashboard and Login components use configurable API base URL
      - Playwright config passes env var to dev server
-   
    - **Backend-Integrated Login Component**:
      - File: `frontend/src/components/Auth/Login.tsx`
      - Real POST to `/api/v1/auth/login`
      - Stores JWT token in localStorage on success
      - Displays error messages on failure (role="alert" for e2e testing)
      - Proper TypeScript error handling (no `any` types)
-   
    - **E2E Test Coverage**:
      - File: `frontend/src/__tests__/e2e/app.spec.ts`
      - 5 tests: title check, navigation, login form elements, failed login, dashboard scan
@@ -100,12 +98,14 @@ npm run lint --workspaces
 ### Using Environment Variables
 
 **Backend** (`backend/.env`):
+
 ```bash
 cp backend/.env.example backend/.env
 # Edit backend/.env with your JWT secret
 ```
 
 **Frontend** (`frontend/.env.local`):
+
 ```bash
 cp frontend/.env.example frontend/.env.local
 # Edit VITE_API_BASE_URL if backend runs on different port
@@ -121,11 +121,13 @@ VITE_API_BASE_URL="http://localhost:4000" npm run test:e2e
 ## Current Test Results
 
 ### Backend (30 tests passing)
+
 - 6 test suites
 - Unit tests: auth controller, scanner controller, auth middleware, scanner service, health endpoint
 - Integration tests: 12 comprehensive API tests
 
 ### Frontend (6 unit tests passing)
+
 - Login component tests
 - Dashboard component tests
 - E2E infrastructure ready (5 tests, requires backend running)
@@ -156,6 +158,7 @@ VITE_API_BASE_URL="http://localhost:4000" npm run test:e2e
 ## Files Created/Modified
 
 **Created:**
+
 - `.github/dependabot.yml`
 - `.github/workflows/test.yml`
 - `backend/eslint.config.mjs`
@@ -170,6 +173,7 @@ VITE_API_BASE_URL="http://localhost:4000" npm run test:e2e
 - `frontend/.env.example`
 
 **Modified:**
+
 - `frontend/src/components/Auth/Login.tsx` (backend-integrated login)
 - `frontend/src/components/Dashboard/Dashboard.tsx` (env-based API URL)
 - `frontend/src/__tests__/e2e/app.spec.ts` (added failed login test + login form test)

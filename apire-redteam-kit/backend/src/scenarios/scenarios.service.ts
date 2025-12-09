@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable } from "@nestjs/common";
 
 export interface Scenario {
   id: string;
@@ -11,16 +11,17 @@ export interface Scenario {
 export class ScenariosService {
   private scenarios: Scenario[] = [
     {
-      id: 'prompt-injection-basic',
-      name: 'Basic Prompt Injection',
-      category: 'Injection',
-      description: 'Attempts to override system instructions using direct commands.',
+      id: "prompt-injection-basic",
+      name: "Basic Prompt Injection",
+      category: "Injection",
+      description:
+        "Attempts to override system instructions using direct commands.",
     },
     {
-      id: 'dan-jailbreak',
-      name: 'DAN Jailbreak',
-      category: 'Jailbreak',
-      description: 'Classic Do Anything Now roleplay attack.',
+      id: "dan-jailbreak",
+      name: "DAN Jailbreak",
+      category: "Jailbreak",
+      description: "Classic Do Anything Now roleplay attack.",
     },
   ];
 
@@ -29,6 +30,6 @@ export class ScenariosService {
   }
 
   findOne(id: string): Scenario | undefined {
-    return this.scenarios.find(s => s.id === id);
+    return this.scenarios.find((s) => s.id === id);
   }
 }

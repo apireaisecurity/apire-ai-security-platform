@@ -42,17 +42,38 @@ const Dashboard: React.FC = () => {
         <div className="bg-white p-6 rounded-lg shadow-md border-l-4 border-blue-500">
           <h3 className="text-lg font-bold mb-2">Prompt Shield</h3>
           <p className="text-gray-600 mb-4">Real-time injection testing & jailbreak detection.</p>
-          <a href="http://localhost:3002" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline font-medium">Launch Tool &rarr;</a>
+          <a
+            href="http://localhost:3002"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-blue-600 hover:underline font-medium"
+          >
+            Launch Tool &rarr;
+          </a>
         </div>
         <div className="bg-white p-6 rounded-lg shadow-md border-l-4 border-red-500">
           <h3 className="text-lg font-bold mb-2">RedTeam Kit</h3>
           <p className="text-gray-600 mb-4">Advanced adversarial testing & attack scenarios.</p>
-          <a href="http://localhost:3006" target="_blank" rel="noopener noreferrer" className="text-red-600 hover:underline font-medium">Launch Tool &rarr;</a>
+          <a
+            href="http://localhost:3006"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-red-600 hover:underline font-medium"
+          >
+            Launch Tool &rarr;
+          </a>
         </div>
         <div className="bg-white p-6 rounded-lg shadow-md border-l-4 border-green-500">
           <h3 className="text-lg font-bold mb-2">Compliance Checker</h3>
           <p className="text-gray-600 mb-4">Automated policy scanning (GDPR, HIPAA, AI Act).</p>
-          <a href="http://localhost:3004" target="_blank" rel="noopener noreferrer" className="text-green-600 hover:underline font-medium">Launch Tool &rarr;</a>
+          <a
+            href="http://localhost:3004"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-green-600 hover:underline font-medium"
+          >
+            Launch Tool &rarr;
+          </a>
         </div>
       </div>
 

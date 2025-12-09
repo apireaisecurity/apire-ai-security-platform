@@ -1,7 +1,7 @@
-import express from 'express';
-import cors from 'cors';
-import helmet from 'helmet';
-import dotenv from 'dotenv';
+import express from "express";
+import cors from "cors";
+import helmet from "helmet";
+import dotenv from "dotenv";
 
 dotenv.config();
 
@@ -12,15 +12,15 @@ app.use(helmet());
 app.use(cors());
 app.use(express.json());
 
-import scanRoutes from './routes/scan.routes';
-import { authenticate } from './middleware/auth.middleware';
+import scanRoutes from "./routes/scan.routes";
+import { authenticate } from "./middleware/auth.middleware";
 
 // Health Check
-app.get('/health', (req, res) => {
-  res.json({ status: 'ok', service: 'apire-compliance-checker-api' });
+app.get("/health", (req, res) => {
+  res.json({ status: "ok", service: "apire-compliance-checker-api" });
 });
 
-app.use('/api/v1', authenticate, scanRoutes);
+app.use("/api/v1", authenticate, scanRoutes);
 
 if (require.main === module) {
   app.listen(PORT, () => {

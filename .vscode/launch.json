@@ -1,0 +1,52 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Debug Core Backend",
+      "skipFiles": ["<node_internals>/**"],
+      "program": "${workspaceFolder}/backend/src/app.ts",
+      "runtimeArgs": ["-r", "ts-node/register"],
+      "env": { "PORT": "3000" }
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Debug Prompt Shield API",
+      "skipFiles": ["<node_internals>/**"],
+      "program": "${workspaceFolder}/apire-prompt-shield/backend/src/app.ts",
+      "runtimeArgs": ["-r", "ts-node/register"],
+      "env": { "PORT": "3001" }
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Debug Compliance API",
+      "skipFiles": ["<node_internals>/**"],
+      "program": "${workspaceFolder}/apire-compliance-checker/backend/src/app.ts",
+      "runtimeArgs": ["-r", "ts-node/register"],
+      "env": { "PORT": "3003" }
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Debug RedTeam API (NestJS)",
+      "skipFiles": ["<node_internals>/**"],
+      "program": "${workspaceFolder}/apire-redteam-kit/backend/src/main.ts",
+      "runtimeArgs": ["-r", "ts-node/register"],
+      "env": { "PORT": "3005" }
+    }
+  ],
+  "compounds": [
+    {
+      "name": "Debug All Backends",
+      "configurations": [
+        "Debug Core Backend",
+        "Debug Prompt Shield API",
+        "Debug Compliance API",
+        "Debug RedTeam API (NestJS)"
+      ]
+    }
+  ]
+}

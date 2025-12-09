@@ -5,6 +5,7 @@ We value the security community and welcome collaboration.
 ## Contributing Scenarios
 
 If you discover a new jailbreak or attack vector:
+
 1.  Create a scenario in the Scenario Builder.
 2.  Export it as JSON.
 3.  Submit a Pull Request to our `community-scenarios` repo.
@@ -18,6 +19,7 @@ If you discover a new jailbreak or attack vector:
 ## Disclosure Policy
 
 If you find a vulnerability in the APIRE RedTeam Kit itself:
+
 - Please email security@apire.ai.
 - Do not open a public GitHub issue.
 - We will respond within 48 hours.

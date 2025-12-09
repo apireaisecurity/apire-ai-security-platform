@@ -48,6 +48,7 @@ Access the dashboard at `http://localhost:3000`.
 ## 🏗️ Architecture
 
 Built on a modern stack for performance and flexibility:
+
 - **Frontend**: Next.js 14, TypeScript, Tailwind CSS.
 - **Backend**: NestJS (Node.js), GraphQL + REST.
 - **Database**: MongoDB (flexible schema for scenarios).

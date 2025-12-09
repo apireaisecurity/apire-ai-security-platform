@@ -5,6 +5,8 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
+    "lint": "echo 'No linting configured for prompt-shield-frontend'",
+    "test": "echo 'No tests configured for prompt-shield-frontend'",
     "preview": "vite preview"
   },
   "dependencies": {

@@ -28,6 +28,7 @@ redteam_scan:
 Configure webhooks in **Settings > Integrations**.
 
 **Payload Example:**
+
 ```json
 {
   "event": "campaign.completed",
@@ -40,6 +41,7 @@ Configure webhooks in **Settings > Integrations**.
 ## Jira Integration
 
 Automatically create tickets for successful attacks.
+
 1.  Go to **Settings > Integrations > Jira**.
 2.  Enter URL, Email, and API Token.
 3.  Map severity levels to Jira priorities.

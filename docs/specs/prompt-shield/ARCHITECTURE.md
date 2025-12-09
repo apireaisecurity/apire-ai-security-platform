@@ -9,11 +9,13 @@ APIRE Prompt Shield is designed as a scalable, microservices-based platform. It 
 ## Components
 
 ### 1. Web UI (Frontend)
+
 - **Tech Stack**: React 18, TypeScript, Tailwind CSS, Vite.
 - **Responsibility**: Provides the dashboard, test builder, and results visualization.
 - **Communication**: Talks to the API Service via REST and WebSocket.
 
 ### 2. API Service (Backend)
+
 - **Tech Stack**: Node.js 20, Express, TypeScript.
 - **Responsibility**:
   - Handles authentication and authorization.
@@ -23,6 +25,7 @@ APIRE Prompt Shield is designed as a scalable, microservices-based platform. It 
   - Serves WebSocket connections for real-time updates.
 
 ### 3. Worker Service
+
 - **Tech Stack**: Node.js 20, TypeScript.
 - **Responsibility**:
   - Consumes jobs from the Message Queue.
@@ -32,10 +35,12 @@ APIRE Prompt Shield is designed as a scalable, microservices-based platform. It 
 - **Scalability**: Can be horizontally scaled to handle high throughput.
 
 ### 4. Message Queue
+
 - **Tech Stack**: BullMQ (backed by Redis).
 - **Responsibility**: Decouples the API from the Worker, ensuring reliable job processing and buffering bursts of traffic.
 
 ### 5. Data Storage
+
 - **PostgreSQL**: Primary persistent storage for relational data (Users, Tests, Organizations).
 - **Redis**: Used for caching, session management, and the message queue.
 
@@ -64,12 +69,14 @@ APIRE Prompt Shield is designed as a scalable, microservices-based platform. It 
 ## Database Schema
 
 ### `users`
+
 - `id`: UUID
 - `email`: String
 - `password_hash`: String
 - `role`: Enum (admin, user)
 
 ### `tests`
+
 - `id`: UUID
 - `user_id`: UUID (FK)
 - `input`: Text
@@ -79,6 +86,7 @@ APIRE Prompt Shield is designed as a scalable, microservices-based platform. It 
 - `created_at`: Timestamp
 
 ### `api_keys`
+
 - `id`: UUID
 - `user_id`: UUID (FK)
 - `key_hash`: String

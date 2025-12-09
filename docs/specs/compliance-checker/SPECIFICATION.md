@@ -1,9 +1,11 @@
 # APIRE Compliance Checker - Specification
 
 ## Overview
+
 "APIRE Compliance Checker" is a Web-Based Regulatory Scanner designed to ensure AI applications meet various compliance frameworks.
 
 ## Technical Stack
+
 - **Backend**: Node.js 20+ with TypeScript 5+
 - **Web Framework**: Express.js with TypeScript
 - **Frontend**: Vue.js 3+ with TypeScript, Vuetify
@@ -16,6 +18,7 @@
 - **License**: Apache 2.0
 
 ## Architecture
+
 - Policy engine with rule-based system
 - Compliance framework plugins
 - Report generation service
@@ -24,6 +27,7 @@
 - Multi-tenant architecture
 
 ## Web Interface Features
+
 - **Compliance Dashboard**: Overview of compliance status
 - **Framework Selector**: Choose regulatory frameworks
 - **Policy Scanner**: Automated policy analysis
@@ -38,6 +42,7 @@
 - **Export Center**: Generate compliance documentation
 
 ## Frameworks Covered (100+ checks each)
+
 - **GDPR** (EU General Data Protection Regulation)
 - **HIPAA** (Health Insurance Portability)
 - **PCI-DSS** (Payment Card Industry)
@@ -48,6 +53,7 @@
 - **CCPA** (California Consumer Privacy Act)
 
 ## Core Features
+
 - **Automated policy scanning** (code + documentation)
 - **Multi-framework simultaneous assessment**
 - **Risk scoring** (0-100 scale per framework)
@@ -64,6 +70,7 @@
 - **Compliance certificate generation**
 
 ## API Endpoints (35+ planned)
+
 - Scan management
 - Framework configuration
 - Report generation
@@ -74,6 +81,7 @@
 - Full CRUD for all resources
 
 ## Docker Configuration
+
 - 6 container setup (web, api, postgres, elasticsearch, redis, minio)
 - Complete `docker-compose.yml`
 - Production Kubernetes manifests
@@ -82,6 +90,7 @@
 - SSL/TLS configuration
 
 ## Integration Examples
+
 - Slack compliance notifications
 - Jira integration (remediation tickets)
 - ServiceNow integration
@@ -92,7 +101,9 @@
 - SIEM integration (Splunk, Datadog)
 
 ## Documentation Requirements
+
 The following documents are planned for creation:
+
 1. `README.md` (6000+ words)
 2. `FRAMEWORKS.md` (8000 words)
 3. `QUICKSTART_DOCKER.md` (1500 words)

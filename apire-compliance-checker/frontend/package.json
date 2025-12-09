@@ -4,7 +4,9 @@
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "lint": "echo 'No linting configured for compliance-checker-frontend'",
+    "test": "echo 'No tests configured for compliance-checker-frontend'"
   },
   "dependencies": {
     "vue": "^3.3.8",

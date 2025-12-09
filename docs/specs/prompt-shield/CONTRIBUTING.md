@@ -12,23 +12,30 @@ Thank you for your interest in contributing! We welcome contributions from the c
 ## Development Workflow
 
 ### Project Structure
+
 - `src/api`: Backend API service
 - `src/worker`: Background worker service
 - `src/web`: Frontend React application
 - `src/shared`: Shared types and utilities
 
 ### Running Locally
+
 We use Docker Compose for a consistent dev environment.
+
 ```bash
 docker-compose up
 ```
+
 This starts the DB, Redis, API, Worker, and Web UI.
 
 ### Testing
+
 Please ensure all tests pass before submitting a PR.
+
 ```bash
 npm test
 ```
+
 We use Jest for backend tests and React Testing Library for frontend.
 
 ## Code Style
@@ -47,6 +54,7 @@ We use Jest for backend tests and React Testing Library for frontend.
 ## Adding New Attack Patterns
 
 To add a new attack pattern to the library:
+
 1.  Navigate to `src/worker/patterns`.
 2.  Create a new definition file (e.g., `new-attack.ts`).
 3.  Implement the detection logic.
@@ -54,4 +62,5 @@ To add a new attack pattern to the library:
 5.  Add unit tests in `src/worker/__tests__/patterns`.
 
 ## License
+
 By contributing, you agree that your contributions will be licensed under the Apache 2.0 License.

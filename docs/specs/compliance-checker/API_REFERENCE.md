@@ -32,6 +32,7 @@ Download the report file.
 ## Webhooks
 
 Register webhooks to get notified when:
+
 - A scan completes.
 - A compliance score drops below a threshold.
 - A new critical vulnerability is found.

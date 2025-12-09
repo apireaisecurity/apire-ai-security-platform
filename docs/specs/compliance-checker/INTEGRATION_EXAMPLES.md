@@ -14,6 +14,7 @@
 ## Jira (Remediation)
 
 Automatically create Jira tickets for compliance gaps.
+
 - **Project**: COMPLIANCE
 - **Issue Type**: Task
 - **Labels**: `gdpr`, `auto-generated`
@@ -21,11 +22,13 @@ Automatically create Jira tickets for compliance gaps.
 ## Slack (Notifications)
 
 Receive daily compliance summaries.
+
 - "Your GDPR score dropped by 5% today."
 - "New critical finding in repo `backend-api`."
 
 ## Cloud Providers (CSPM)
 
 Connect your AWS account to scan for infrastructure compliance.
+
 - **AWS Config**: Import rules.
 - **Security Hub**: Sync findings.

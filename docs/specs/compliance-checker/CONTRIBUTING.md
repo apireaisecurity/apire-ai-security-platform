@@ -1,6 +1,7 @@
 # Contributing to APIRE Compliance Checker
 
 ## Tech Stack
+
 - **Backend**: Node.js, Express, TypeScript.
 - **Frontend**: Vue.js 3, Vuetify, Pinia.
 

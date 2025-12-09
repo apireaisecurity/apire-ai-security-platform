@@ -2,13 +2,13 @@
 
 ## Environment Variables
 
-| Variable | Description | Default |
-|----------|-------------|---------|
-| `PORT` | API Port | 3000 |
-| `DB_HOST` | Postgres Host | localhost |
-| `ES_NODE` | Elasticsearch URL | http://localhost:9200 |
-| `MINIO_ENDPOINT` | S3 Endpoint | localhost |
-| `ENCRYPTION_KEY` | Key for encrypting sensitive config | - |
+| Variable         | Description                         | Default               |
+| ---------------- | ----------------------------------- | --------------------- |
+| `PORT`           | API Port                            | 3000                  |
+| `DB_HOST`        | Postgres Host                       | localhost             |
+| `ES_NODE`        | Elasticsearch URL                   | http://localhost:9200 |
+| `MINIO_ENDPOINT` | S3 Endpoint                         | localhost             |
+| `ENCRYPTION_KEY` | Key for encrypting sensitive config | -                     |
 
 ## Policy Configuration (`policies.yaml`)
 

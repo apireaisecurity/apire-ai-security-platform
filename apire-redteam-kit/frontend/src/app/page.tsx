@@ -15,5 +15,5 @@ export default function Home() {
         {/* TODO: Implement Dashboard widgets based on WEB_UI_WALKTHROUGH.md */}
       </div>
     </main>
-  )
+  );
 }

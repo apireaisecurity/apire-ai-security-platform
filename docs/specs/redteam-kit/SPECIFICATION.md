@@ -1,9 +1,11 @@
 # APIRE RedTeam Kit - Specification
 
 ## Overview
+
 "APIRE RedTeam Kit" is a Web-Based AI Red Team Toolkit designed for advanced adversarial testing and scenario-based attacks.
 
 ## Technical Stack
+
 - **Backend**: Node.js 20+ with TypeScript 5+
 - **Web Framework**: NestJS (for better architecture)
 - **Frontend**: Next.js 14+ with TypeScript, shadcn/ui
@@ -16,6 +18,7 @@
 - **License**: Apache 2.0
 
 ## Architecture
+
 - Modular attack scenario system
 - Plugin architecture for custom attacks
 - Distributed attack execution
@@ -24,6 +27,7 @@
 - API gateway pattern
 
 ## Web Interface Features
+
 - **Attack Dashboard**: Overview of running attacks
 - **Scenario Builder**: Visual attack scenario creator
 - **Attack Library**: 50+ pre-built scenarios with search/filter
@@ -36,6 +40,7 @@
 - **Audit Log**: Complete activity tracking
 
 ## Core Features
+
 - **Pre-built attack scenarios (50+ templates)**:
   - Prompt injection attacks (15 variants)
   - Context overflow attacks
@@ -59,6 +64,7 @@
 - **Attack replay functionality**
 
 ## API Design (30+ endpoints)
+
 - GraphQL API for complex queries
 - REST API for simple operations
 - Real-time subscriptions via GraphQL
@@ -66,6 +72,7 @@
 - Comprehensive API documentation
 
 ## Docker Configuration
+
 - 5 container setup (web, api, worker, mongo, rabbitmq)
 - Docker Compose development environment
 - Production-ready Dockerfile
@@ -74,6 +81,7 @@
 - Secret management
 
 ## Integrations
+
 - pytest integration (run as tests)
 - Jest integration for TypeScript projects
 - GitHub Actions complete workflow
@@ -84,7 +92,9 @@
 - Custom webhook support
 
 ## Documentation Requirements
+
 The following documents are planned for creation:
+
 1. `README.md` (5000+ words)
 2. `ATTACK_SCENARIOS.md` (6000 words)
 3. `QUICKSTART_DOCKER.md` (1500 words)

@@ -1,4 +1,4 @@
-import { PolicyEngine } from '../engine/policy.engine';
+import { PolicyEngine } from "../engine/policy.engine";
 
 const policyEngine = new PolicyEngine();
 
@@ -9,8 +9,8 @@ export class ScanService {
       setTimeout(() => {
         const findings = policyEngine.scan(config, frameworks);
         resolve({
-          id: 'scan-' + Date.now(),
-          status: 'completed',
+          id: "scan-" + Date.now(),
+          status: "completed",
           findings,
           score: findings.length === 0 ? 100 : 50,
         });

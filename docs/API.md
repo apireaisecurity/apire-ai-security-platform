@@ -3,6 +3,7 @@
 ## Authentication
 
 ### Register
+
 - **URL**: `/api/v1/auth/register`
 - **Method**: `POST`
 - **Body**:
@@ -16,6 +17,7 @@
 - **Response**: `201 Created`
 
 ### Login
+
 - **URL**: `/api/v1/auth/login`
 - **Method**: `POST`
 - **Body**:
@@ -28,6 +30,7 @@
 - **Response**: `200 OK` (returns JWT token)
 
 ### Get Current User
+
 - **URL**: `/api/v1/auth/me`
 - **Method**: `GET`
 - **Headers**: `Authorization: Bearer <token>`
@@ -36,6 +39,7 @@
 ## Scanner
 
 ### Scan Prompt
+
 - **URL**: `/api/v1/scanner`
 - **Method**: `POST`
 - **Headers**: `Authorization: Bearer <token>`

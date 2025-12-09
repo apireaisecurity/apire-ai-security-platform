@@ -27,12 +27,12 @@ We employ a multi-layered testing approach:
 
 We enforce strict coverage thresholds in CI to maintain code quality:
 
-| Metric       | Threshold | Backend Current | Frontend Current |
-|--------------|-----------|-----------------|------------------|
-| Statements   | ≥ 80%     | 92.24%          | 100%             |
-| Branches     | ≥ 80%     | 88.46%          | 95.45%           |
-| Functions    | ≥ 80%     | 84.61%          | 100%             |
-| Lines        | ≥ 80%     | 92.8%           | 100%             |
+| Metric     | Threshold | Backend Current | Frontend Current |
+| ---------- | --------- | --------------- | ---------------- |
+| Statements | ≥ 80%     | 92.24%          | 100%             |
+| Branches   | ≥ 80%     | 88.46%          | 95.45%           |
+| Functions  | ≥ 80%     | 84.61%          | 100%             |
+| Lines      | ≥ 80%     | 92.8%           | 100%             |
 
 **Coverage is enforced in CI** - PRs that drop coverage below thresholds will fail.
 
@@ -87,6 +87,7 @@ backend/src/__tests__/
 ### Backend Test Coverage
 
 **Unit Tests (18 tests)**:
+
 - Health endpoint
 - Auth controller (register, login, validation)
 - Scanner controller (validation, error handling)
@@ -94,6 +95,7 @@ backend/src/__tests__/
 - Scanner service (threat detection, edge cases)
 
 **Integration Tests (12 tests)**:
+
 - Register flow (success, validation errors, duplicate email)
 - Login flow (success, wrong password, non-existent user)
 - Scanner flow (authenticated success, unauthorized, validation, threat detection)
@@ -147,10 +149,12 @@ frontend/src/__tests__/
 ### Frontend Test Coverage
 
 **Unit Tests (9 tests)**:
+
 - Login component (render, input handling, success, error handling)
 - Dashboard component (render, safe results, unsafe results, error handling)
 
 **E2E Tests (5 tests)**:
+
 - Page title and navigation
 - Login form rendering
 - Failed login with error message
@@ -198,6 +202,7 @@ API_BASE_URL=http://localhost:4000 npm run perf:k6
 ### k6 Test Scenarios
 
 **Login and Scanner Flow** (`tests/perf/k6-login-and-scan.js`):
+
 1. Register a test user
 2. Login and obtain JWT token
 3. Make scanner API requests with various prompts
@@ -369,4 +374,3 @@ All tests and security checks run automatically on every commit. Check the **Act
 ---
 
 **Questions?** Open an issue or contact the team.
-

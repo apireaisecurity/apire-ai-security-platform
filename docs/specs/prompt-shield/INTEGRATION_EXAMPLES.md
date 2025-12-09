@@ -5,29 +5,33 @@ This document provides code examples for integrating APIRE Prompt Shield into va
 ## 1. TypeScript / Node.js Integration
 
 ```typescript
-import axios from 'axios';
+import axios from "axios";
 
-const APIRE_URL = 'http://localhost:4000/api/v1';
+const APIRE_URL = "http://localhost:4000/api/v1";
 const API_KEY = process.env.APIRE_API_KEY;
 
 async function checkPromptSafety(prompt: string) {
   try {
-    const response = await axios.post(`${APIRE_URL}/tests`, {
-      input: prompt,
-      checks: ['injection', 'pii', 'toxicity']
-    }, {
-      headers: { Authorization: `Bearer ${API_KEY}` }
-    });
+    const response = await axios.post(
+      `${APIRE_URL}/tests`,
+      {
+        input: prompt,
+        checks: ["injection", "pii", "toxicity"],
+      },
+      {
+        headers: { Authorization: `Bearer ${API_KEY}` },
+      },
+    );
 
     const { result } = response.data;
     if (!result.is_safe) {
-      console.warn('Unsafe prompt detected:', result.flags);
-      throw new Error('Security check failed');
+      console.warn("Unsafe prompt detected:", result.flags);
+      throw new Error("Security check failed");
     }
-    
+
     return true;
   } catch (error) {
-    console.error('Scan failed:', error);
+    console.error("Scan failed:", error);
     return false;
   }
 }
@@ -38,53 +42,62 @@ async function checkPromptSafety(prompt: string) {
 Protect your API endpoints automatically.
 
 ```typescript
-import { Request, Response, NextFunction } from 'express';
-import axios from 'axios';
+import { Request, Response, NextFunction } from "express";
+import axios from "axios";
 
-export const promptSecurityMiddleware = async (req: Request, res: Response, next: NextFunction) => {
+export const promptSecurityMiddleware = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
   const userPrompt = req.body.prompt;
 
   if (userPrompt) {
     const isSafe = await checkPromptSafety(userPrompt); // Implementation from above
     if (!isSafe) {
-      return res.status(400).json({ error: 'Prompt rejected by security policy' });
+      return res
+        .status(400)
+        .json({ error: "Prompt rejected by security policy" });
     }
   }
   next();
 };
 
 // Usage
-app.post('/chat', promptSecurityMiddleware, chatHandler);
+app.post("/chat", promptSecurityMiddleware, chatHandler);
 ```
 
 ## 3. Next.js API Route
 
 ```typescript
 // pages/api/chat.ts
-import type { NextApiRequest, NextApiResponse } from 'next';
+import type { NextApiRequest, NextApiResponse } from "next";
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse,
+) {
   const { message } = req.body;
 
   // 1. Security Scan
-  const scanRes = await fetch('http://localhost:4000/api/v1/tests', {
-    method: 'POST',
-    headers: { 
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${process.env.APIRE_KEY}`
+  const scanRes = await fetch("http://localhost:4000/api/v1/tests", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${process.env.APIRE_KEY}`,
     },
-    body: JSON.stringify({ input: message, checks: ['injection'] })
+    body: JSON.stringify({ input: message, checks: ["injection"] }),
   });
-  
+
   const scanData = await scanRes.json();
 
   if (!scanData.result.is_safe) {
-    return res.status(400).json({ error: 'Unsafe content detected' });
+    return res.status(400).json({ error: "Unsafe content detected" });
   }
 
   // 2. Proceed to LLM
   // ... call OpenAI/Anthropic ...
-  res.status(200).json({ reply: 'Hello safe world' });
+  res.status(200).json({ reply: "Hello safe world" });
 }
 ```
 
@@ -121,7 +134,7 @@ def scan_prompt(prompt):
         "input": prompt,
         "checks": ["injection", "jailbreak"]
     }
-    
+
     response = requests.post(url, json=payload, headers=headers)
     return response.json()
 

@@ -9,13 +9,13 @@ graph TD
     Client[Frontend Client] -->|HTTP/JSON| LB[Load Balancer]
     LB -->|/api| Backend[Backend API]
     LB -->|/| Frontend[Frontend App]
-    
+
     subgraph Backend Services
         Auth[Auth Service]
         Scanner[Scanner Service]
         User[User Service]
     end
-    
+
     Backend --> Auth
     Backend --> Scanner
     Backend --> User
@@ -24,12 +24,14 @@ graph TD
 ## Components
 
 ### Frontend
+
 - **Framework**: React with Vite
 - **Styling**: Tailwind CSS
 - **State Management**: React Query (planned)
 - **Routing**: React Router
 
 ### Backend
+
 - **Runtime**: Node.js
 - **Framework**: Express
 - **Language**: TypeScript

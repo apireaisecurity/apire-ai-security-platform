@@ -41,17 +41,21 @@ Access the Web UI at `http://localhost:3000`.
 ## 🖥️ Web Interface
 
 ### Dashboard
+
 The central hub for monitoring your AI security posture. View real-time test results, recent alerts, and overall system health.
 
 ### Test Builder
+
 A visual interface for creating complex prompt injection tests. Drag and drop attack patterns, configure parameters, and save test cases.
 
 ### Results Viewer
+
 Deep dive into test results. Filter by attack type, severity, or date. Export reports in JSON, CSV, or PDF formats.
 
 ## 🛠️ Installation
 
 ### Prerequisites
+
 - Docker & Docker Compose
 - Node.js 20+ (for local dev)
 - PostgreSQL 15+
@@ -88,13 +92,13 @@ curl -X POST http://localhost:3000/api/v1/tests \
 ### TypeScript Client
 
 ```typescript
-import { PromptShield } from '@apire/prompt-shield-client';
+import { PromptShield } from "@apire/prompt-shield-client";
 
-const client = new PromptShield({ apiKey: 'YOUR_KEY' });
+const client = new PromptShield({ apiKey: "YOUR_KEY" });
 
 const result = await client.scan({
-  prompt: 'Hello, world!',
-  checks: ['toxicity']
+  prompt: "Hello, world!",
+  checks: ["toxicity"],
 });
 
 console.log(result.isSafe); // true
@@ -102,18 +106,19 @@ console.log(result.isSafe); // true
 
 ## ⚙️ Environment Variables
 
-| Variable | Description | Default |
-|----------|-------------|---------|
-| `PORT` | API Server Port | 3000 |
-| `DATABASE_URL` | PostgreSQL Connection String | postgres://localhost:5432/prompt_shield |
-| `REDIS_URL` | Redis Connection String | redis://localhost:6379 |
-| `JWT_SECRET` | Secret for JWT signing | change_me |
-| `OPENAI_API_KEY` | OpenAI API Key for testing | - |
-| ... | ... | ... |
+| Variable         | Description                  | Default                                 |
+| ---------------- | ---------------------------- | --------------------------------------- |
+| `PORT`           | API Server Port              | 3000                                    |
+| `DATABASE_URL`   | PostgreSQL Connection String | postgres://localhost:5432/prompt_shield |
+| `REDIS_URL`      | Redis Connection String      | redis://localhost:6379                  |
+| `JWT_SECRET`     | Secret for JWT signing       | change_me                               |
+| `OPENAI_API_KEY` | OpenAI API Key for testing   | -                                       |
+| ...              | ...                          | ...                                     |
 
 ## 🏗️ Architecture
 
 APIRE Prompt Shield follows a microservices architecture:
+
 - **API Service**: Handles REST requests and WebSocket connections.
 - **Worker Service**: Processes test jobs asynchronously using BullMQ.
 - **Web UI**: React-based frontend for management and visualization.
@@ -144,4 +149,5 @@ This project is licensed under the Apache 2.0 License - see the [LICENSE](LICENS
 - [Blog](https://apire.ai/blog)
 
 ---
+
 **Upgrade to APIRE Platform** for enterprise features like SSO, Audit Logs, and dedicated support.

@@ -6,7 +6,8 @@
     "start": "node dist/app.js",
     "dev": "ts-node-dev --respawn --transpile-only src/app.ts",
     "build": "tsc",
-    "test": "jest"
+    "test": "jest",
+    "lint": "echo 'No linting configured for compliance-checker-backend'"
   },
   "dependencies": {
     "express": "^4.18.2",

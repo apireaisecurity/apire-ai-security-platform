@@ -22,11 +22,13 @@ Authorization: Bearer <YOUR_API_KEY>
 ### Tests
 
 #### Create a New Test
+
 `POST /tests`
 
 Initiates a new security scan for a given prompt.
 
 **Request Body:**
+
 ```json
 {
   "input": "string", // The prompt to test
@@ -39,6 +41,7 @@ Initiates a new security scan for a given prompt.
 ```
 
 **Response:**
+
 ```json
 {
   "id": "uuid",
@@ -48,11 +51,13 @@ Initiates a new security scan for a given prompt.
 ```
 
 #### Get Test Results
+
 `GET /tests/:id`
 
 Retrieves the status and results of a specific test.
 
 **Response:**
+
 ```json
 {
   "id": "uuid",
@@ -72,11 +77,13 @@ Retrieves the status and results of a specific test.
 ```
 
 #### Batch Testing
+
 `POST /tests/batch`
 
 Submit multiple tests at once.
 
 **Request Body:**
+
 ```json
 {
   "tests": [
@@ -89,11 +96,13 @@ Submit multiple tests at once.
 ### Attack Patterns
 
 #### List Attack Patterns
+
 `GET /attack-patterns`
 
 Returns a list of available attack patterns and their descriptions.
 
 **Response:**
+
 ```json
 [
   {
@@ -114,11 +123,13 @@ Returns a list of available attack patterns and their descriptions.
 ### Rules
 
 #### Create Custom Rule
+
 `POST /rules`
 
 Define a custom regex or keyword-based rule.
 
 **Request Body:**
+
 ```json
 {
   "name": "No Competitor Mentions",
@@ -131,35 +142,37 @@ Define a custom regex or keyword-based rule.
 ### Real-time Updates
 
 #### WebSocket Connection
+
 `WS /ws/tests`
 
 Connect to receive real-time updates for running tests.
 
 **Protocol:**
+
 1. Connect with `?token=<API_KEY>`
 2. Subscribe to test ID: `{"action": "subscribe", "testId": "uuid"}`
 3. Receive events: `{"type": "progress", "testId": "uuid", "percent": 50}`
 
 ## Error Codes
 
-| Code | Description |
-|------|-------------|
-| 400 | Bad Request - Invalid input parameters |
-| 401 | Unauthorized - Invalid or missing API key |
-| 403 | Forbidden - Insufficient permissions |
-| 404 | Not Found - Resource does not exist |
-| 429 | Too Many Requests - Rate limit exceeded |
-| 500 | Internal Server Error |
+| Code | Description                               |
+| ---- | ----------------------------------------- |
+| 400  | Bad Request - Invalid input parameters    |
+| 401  | Unauthorized - Invalid or missing API key |
+| 403  | Forbidden - Insufficient permissions      |
+| 404  | Not Found - Resource does not exist       |
+| 429  | Too Many Requests - Rate limit exceeded   |
+| 500  | Internal Server Error                     |
 
 ## SDK Usage
 
 ### TypeScript
 
 ```typescript
-import { PromptShield } from '@apire/prompt-shield';
+import { PromptShield } from "@apire/prompt-shield";
 
 const client = new PromptShield({ apiKey: process.env.APIRE_KEY });
 
 // Run a scan
-const result = await client.scan('Is this safe?');
+const result = await client.scan("Is this safe?");
 ```

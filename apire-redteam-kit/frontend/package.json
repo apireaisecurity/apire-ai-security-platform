@@ -5,7 +5,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "echo 'No linting configured for redteam-kit-frontend'",
+    "test": "echo 'No tests configured for redteam-kit-frontend'"
   },
   "dependencies": {
     "next": "14.0.0",

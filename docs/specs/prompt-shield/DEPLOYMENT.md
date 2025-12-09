@@ -31,18 +31,22 @@ We provide Helm charts (coming soon) and raw manifests.
 ## Cloud Provider Guides
 
 ### AWS (ECS/Fargate)
+
 1.  Push images to ECR.
 2.  Create a Task Definition with the 5 containers.
 3.  Create an ECS Service behind an Application Load Balancer (ALB).
 4.  Use RDS for PostgreSQL and ElastiCache for Redis.
 
 ### GCP (Cloud Run)
-*Note: Cloud Run is stateless, so you need external DB/Redis.*
+
+_Note: Cloud Run is stateless, so you need external DB/Redis._
+
 1.  Deploy API and Worker as separate Cloud Run services.
 2.  Use Cloud SQL for PostgreSQL.
 3.  Use Memorystore for Redis.
 
 ### Azure (AKS)
+
 1.  Use Azure Kubernetes Service.
 2.  Use Azure Database for PostgreSQL.
 3.  Use Azure Cache for Redis.
@@ -52,6 +56,7 @@ We provide Helm charts (coming soon) and raw manifests.
 We recommend using a reverse proxy like Nginx or Traefik to handle SSL termination.
 
 **Nginx Example:**
+
 ```nginx
 server {
     listen 443 ssl;
@@ -74,7 +79,7 @@ server {
 
 - **Prometheus**: Expose metrics at `/metrics` endpoint (enabled by default).
 - **Grafana**: Import our standard dashboard JSON to visualize:
-    - Tests per minute
-    - Average latency
-    - Error rates
-    - Worker queue depth
+  - Tests per minute
+  - Average latency
+  - Error rates
+  - Worker queue depth

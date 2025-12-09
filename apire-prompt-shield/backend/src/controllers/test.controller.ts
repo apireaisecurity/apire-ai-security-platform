@@ -1,6 +1,6 @@
-import { Request, Response } from 'express';
-import { TestService } from '../services/test.service';
-import { TestRequest } from '../types';
+import { Request, Response } from "express";
+import { TestService } from "../services/test.service";
+import { TestRequest } from "../types";
 
 const testService = new TestService();
 
@@ -10,13 +10,15 @@ export class TestController {
       const request: TestRequest = req.body;
       // Basic validation
       if (!request.input || !request.checks) {
-        return res.status(400).json({ error: 'Missing required fields: input, checks' });
+        return res
+          .status(400)
+          .json({ error: "Missing required fields: input, checks" });
       }
 
       const job = await testService.createTest(request);
       res.status(201).json(job);
     } catch (error) {
-      res.status(500).json({ error: 'Internal server error' });
+      res.status(500).json({ error: "Internal server error" });
     }
   }
 
@@ -26,12 +28,12 @@ export class TestController {
       const job = await testService.getTest(id);
 
       if (!job) {
-        return res.status(404).json({ error: 'Test not found' });
+        return res.status(404).json({ error: "Test not found" });
       }
 
       res.json(job);
     } catch (error) {
-      res.status(500).json({ error: 'Internal server error' });
+      res.status(500).json({ error: "Internal server error" });
     }
   }
 }

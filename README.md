@@ -1,3 +1,5 @@
+[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/apireaisecurity/apire-ai-security-platform)
+
 # Apire AI Security Platform
 
 The Apire AI Security Platform is a comprehensive solution for securing AI applications, featuring prompt injection detection, PII scanning, and toxicity checks.
@@ -18,6 +20,20 @@ The Apire AI Security Platform is a comprehensive solution for securing AI appli
 
 ## 📦 Getting Started
 
+### 🚀 Run in GitHub Codespaces (No Install Required)
+
+You can run the entire platform directly in your browser using GitHub Codespaces.
+
+[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/apireaisecurity/apire-ai-security-platform)
+
+1. Click the badge above or the **Code** button on the GitHub repository.
+2. Select the **Codespaces** tab.
+3. Click **Create codespace on main**.
+
+GitHub will spin up a cloud environment, build all Docker containers, and forward the ports so you can access the applications.
+
+👉 **[Read the Full Deployment Guide](./docs/DEPLOY_ON_CODESPACES.md)** for detailed instructions.
+
 ### Prerequisites
 
 - Node.js >= 18
@@ -26,12 +42,14 @@ The Apire AI Security Platform is a comprehensive solution for securing AI appli
 ### Installation
 
 1. Clone the repository:
+
    ```bash
    git clone https://github.com/apireaisecurity/apire-ai-security-platform.git
    cd apire-ai-security-platform
    ```
 
 2. Install dependencies (for all workspaces):
+
    ```bash
    npm install
    ```
@@ -40,6 +58,7 @@ The Apire AI Security Platform is a comprehensive solution for securing AI appli
    ```bash
    docker-compose up --build
    ```
+
    - Backend: http://localhost:3000
    - Frontend: http://localhost:5173
 
@@ -48,32 +67,39 @@ The Apire AI Security Platform is a comprehensive solution for securing AI appli
 Each tool runs in its own Docker environment.
 
 **APIRE Prompt Shield**
+
 ```bash
 cd apire-prompt-shield
 docker-compose up --build
 ```
+
 - API: http://localhost:3001
 - Web: http://localhost:3002
 
 **APIRE RedTeam Kit**
+
 ```bash
 cd apire-redteam-kit
 docker-compose up --build
 ```
+
 - API: http://localhost:3005
 - Web: http://localhost:3006
 
 **APIRE Compliance Checker**
+
 ```bash
 cd apire-compliance-checker
 docker-compose up --build
 ```
+
 - API: http://localhost:3003
 - Web: http://localhost:3004
 
 ## 🧪 Testing
 
 Run all tests:
+
 ```bash
 ./scripts/test-all.sh
 ```

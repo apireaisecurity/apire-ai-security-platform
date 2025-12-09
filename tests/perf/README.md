@@ -7,11 +7,13 @@ This directory contains performance testing scripts for the Apire AI Security Pl
 Install k6 for load testing:
 
 ### macOS
+
 ```bash
 brew install k6
 ```
 
 ### Linux
+
 ```bash
 sudo gpg -k
 sudo gpg --no-default-keyring --keyring /usr/share/keyrings/k6-archive-keyring.gpg --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys C5AD17C747E3415A3642D57D77C6C491D6AC1D69
@@ -21,6 +23,7 @@ sudo apt-get install k6
 ```
 
 ### Windows
+
 ```powershell
 choco install k6
 ```
@@ -34,17 +37,20 @@ Or download from: https://k6.io/docs/get-started/installation/
 This test simulates user registration, login, and scanner API usage.
 
 **Start the backend server first:**
+
 ```bash
 cd backend
 npm run dev
 ```
 
 **Run the load test (from project root):**
+
 ```bash
 npm run perf:k6
 ```
 
 **With custom backend URL:**
+
 ```bash
 API_BASE_URL=http://localhost:4000 npm run perf:k6
 ```

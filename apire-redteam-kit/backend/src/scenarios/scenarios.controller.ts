@@ -1,7 +1,7 @@
-import { Controller, Get, Param } from '@nestjs/common';
-import { ScenariosService, Scenario } from './scenarios.service';
+import { Controller, Get, Param } from "@nestjs/common";
+import { ScenariosService, Scenario } from "./scenarios.service";
 
-@Controller('scenarios')
+@Controller("scenarios")
 export class ScenariosController {
   constructor(private readonly scenariosService: ScenariosService) {}
 
@@ -10,8 +10,8 @@ export class ScenariosController {
     return this.scenariosService.findAll();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string): Scenario | undefined {
+  @Get(":id")
+  findOne(@Param("id") id: string): Scenario | undefined {
     return this.scenariosService.findOne(id);
   }
 }

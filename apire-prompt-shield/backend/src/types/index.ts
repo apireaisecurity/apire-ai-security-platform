@@ -21,7 +21,7 @@ export interface TestResult {
 
 export interface TestJob {
   id: string;
-  status: 'queued' | 'processing' | 'completed' | 'failed';
+  status: "queued" | "processing" | "completed" | "failed";
   created_at: Date;
   request: TestRequest;
   result?: TestResult;
