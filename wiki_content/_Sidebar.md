@@ -1,6 +1,7 @@
 - **General**
   - [Home](Home)
   - [Getting Started](Getting-Started)
+  - [FAQ](FAQ)
   - [Architecture Overview](Architecture-Overview)
   - [Deployment](Deployment)
   - [Contributing](Contributing)
