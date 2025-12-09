@@ -2,19 +2,18 @@
 
 # Apire AI Security Platform
 
-The Apire AI Security Platform is a comprehensive solution for securing AI applications, featuring prompt injection detection, PII scanning, and toxicity checks.
+The Apire AI Security Platform is a comprehensive suite of security tools designed to protect AI applications against threats including prompt injection, adversarial attacks, and compliance violations.
 
-## 🚀 Features
+## 🚀 Tools
 
-- **Prompt Shield**: Detects and blocks prompt injection attacks.
-- **PII Scanner**: Identifies and redacts Personally Identifiable Information.
-- **Toxicity Check**: Filters harmful or toxic content.
-- **Dashboard**: User-friendly interface for managing security policies and viewing scan results.
+- **🛡️ Prompt Shield**: Real-time defense against prompt injection and jailbreak attempts
+- **⚔️ RedTeam Kit**: Advanced adversarial testing and security auditing toolkit for LLMs
+- **✅ Compliance Checker**: Automated regulatory compliance scanner (GDPR, HIPAA, EU AI Act)
 
 ## 🛠️ Tech Stack
 
-- **Backend**: Node.js, Express, TypeScript
-- **Frontend**: React, Vite, Tailwind CSS
+- **Backend**: Node.js, Express, NestJS, TypeScript
+- **Frontend**: React, Next.js, Vue.js, Vite, Tailwind CSS
 - **Infrastructure**: Docker, Kubernetes
 - **Testing**: Jest, Vitest, Playwright
 
@@ -49,23 +48,36 @@ GitHub will spin up a cloud environment, build all Docker containers, and forwar
    cd apire-ai-security-platform
    ```
 
-2. Install dependencies (for all workspaces):
+2. Install dependencies (for all tools):
 
    ```bash
    npm install
    ```
 
-3. Start the Core Platform:
+3. Start the tools using Docker Compose:
    ```bash
-   docker-compose up --build
+   docker-compose -f docker-compose.codespaces.yml up --build
    ```
 
-   - Backend: http://localhost:3000
-   - Frontend: http://localhost:5173
+### Accessing the Tools
 
-### Running Additional Tools
+Once running, the services are available at:
 
-Each tool runs in its own Docker environment.
+**APIRE Prompt Shield**
+- API: http://localhost:3001
+- Web: http://localhost:3002
+
+**APIRE RedTeam Kit**
+- API: http://localhost:3005
+- Web: http://localhost:3006
+
+**APIRE Compliance Checker**
+- API: http://localhost:3003
+- Web: http://localhost:3004
+
+### Running Individual Tools
+
+Each tool can also be run independently:
 
 **APIRE Prompt Shield**
 
@@ -74,9 +86,6 @@ cd apire-prompt-shield
 docker-compose up --build
 ```
 
-- API: http://localhost:3001
-- Web: http://localhost:3002
-
 **APIRE RedTeam Kit**
 
 ```bash
@@ -84,18 +93,12 @@ cd apire-redteam-kit
 docker-compose up --build
 ```
 
-- API: http://localhost:3005
-- Web: http://localhost:3006
-
 **APIRE Compliance Checker**
 
 ```bash
 cd apire-compliance-checker
 docker-compose up --build
 ```
-
-- API: http://localhost:3003
-- Web: http://localhost:3004
 
 ## 🧪 Testing
 

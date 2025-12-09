@@ -33,10 +33,9 @@ Run this command to launch all microservices:
 ```
 
 This starts:
-- Core Platform (Backend + Frontend)
 - Prompt Shield (Backend + Frontend)
-- Compliance Checker (Backend + Frontend)
 - RedTeam Kit (Backend + Frontend)
+- Compliance Checker (Backend + Frontend)
 - All databases (PostgreSQL, MongoDB, Redis, RabbitMQ)
 
 ### Access Applications
@@ -45,9 +44,7 @@ GitHub will automatically forward ports. Click on the **PORTS** tab in VS Code t
 
 | Port | Service | Access |
 |------|---------|--------|
-| 5173 | Core Dashboard | Click "Open in Browser" |
-| 3000 | Core API | http://localhost:3000 |
-| 3002 | Prompt Shield | Click "Open in Browser" |
+| 3002 | Prompt Shield Web | Click "Open in Browser" |
 | 3001 | Prompt Shield API | http://localhost:3001 |
 | 3004 | Compliance Checker | Click "Open in Browser" |
 | 3003 | Compliance API | http://localhost:3003 |

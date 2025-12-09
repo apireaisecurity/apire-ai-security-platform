@@ -1,6 +1,6 @@
 # ☁️ Deploying Apire AI Security Platform on GitHub Codespaces
 
-This guide provides detailed instructions on how to deploy, run, and test the entire Apire AI Security Platform using GitHub Codespaces. This environment allows you to run the full stack (Backend, Frontend, Databases, and AI Tools) directly in your browser without any local installation.
+This guide provides detailed instructions on how to deploy, run, and test the Apire AI Security Platform using GitHub Codespaces. This environment allows you to run the three security tools with their databases directly in your browser without any local installation.
 
 ## 📋 Table of Contents
 1. [What is GitHub Codespaces?](#what-is-github-codespaces)
@@ -40,14 +40,13 @@ Wait until you see the **"Welcome to APIRE AI Security Platform"** banner in the
 ---
 
 ## 3. Architecture Overview
-The platform consists of four main components, each running on specific ports:
+The platform consists of three specialized security tools, each running on specific ports:
 
 | Component | Tech Stack | Description |
 | :--- | :--- | :--- |
-| **Core Platform** | Node.js, React, Postgres | The main dashboard and authentication service. |
 | **Prompt Shield** | Express, React, Redis | Real-time prompt injection detection tool. |
 | **RedTeam Kit** | NestJS, Next.js, Mongo | Adversarial attack simulation toolkit. |
-| **Compliance Checker** | Express, Vue.js, Elastic | Automated policy compliance scanner. |
+| **Compliance Checker** | Express, Vue.js, Postgres | Automated policy compliance scanner. |
 
 ---
 
@@ -56,45 +55,49 @@ GitHub Codespaces automatically forwards ports to public URLs. You can access th
 
 | Application | Port | Access URL |
 | :--- | :--- | :--- |
-| **Core Dashboard** | `5173` | Click the "Globe" icon next to port 5173 |
-| **Prompt Shield** | `3002` | Click the "Globe" icon next to port 3002 |
-| **RedTeam Kit** | `3006` | Click the "Globe" icon next to port 3006 |
-| **Compliance Checker** | `3004` | Click the "Globe" icon next to port 3004 |
+| **Prompt Shield Web** | `3002` | Click the "Globe" icon next to port 3002 |
+| **Prompt Shield API** | `3001` | Click the "Globe" icon next to port 3001 |
+| **RedTeam Kit Web** | `3006` | Click the "Globe" icon next to port 3006 |
+| **RedTeam Kit API** | `3005` | Click the "Globe" icon next to port 3005 |
+| **Compliance Checker Web** | `3004` | Click the "Globe" icon next to port 3004 |
+| **Compliance Checker API** | `3003` | Click the "Globe" icon next to port 3003 |
 
 > **Tip**: If a port is not listed, press `F1` and type **"Ports: Focus on Ports View"** to open the panel.
 
 ---
 
 ## 5. Running the Full Stack
-By default, the setup script builds the code but does not start the servers to save resources. You have two options to run the platform:
+By default, the setup script builds the code but does not start the servers to save resources.
 
-### Option A: Run via Docker (Recommended)
+### Run All Tools via Docker (Recommended)
 This simulates a production-like environment where every service runs in its own container.
 
-1. Open a new terminal (`Ctrl + Shift + `).
+1. Open a new terminal (`Ctrl + Shift + \``).
 2. Run the following command:
    ```bash
-   docker-compose up --build
+   ./scripts/start-codespace.sh
    ```
 3. This will start:
-   - Core Backend & Frontend
    - Prompt Shield API & Web
    - RedTeam Kit API & Web
    - Compliance Checker API & Web
    - All Databases (Postgres, Mongo, Redis)
 
-### Option B: Run via NPM (Development Mode)
-If you want to work on the code and see changes instantly (Hot Reload):
+### Run Individual Tools
+If you want to work on a specific tool:
 
-1. **Core Platform**:
+1. **Prompt Shield**:
    ```bash
-   npm run dev
+   cd apire-prompt-shield && docker-compose up --build
    ```
-2. **Prompt Shield**:
+2. **RedTeam Kit**:
    ```bash
-   cd apire-prompt-shield && npm run dev
+   cd apire-redteam-kit && docker-compose up --build
    ```
-   *(Repeat for other tools in separate terminals)*
+3. **Compliance Checker**:
+   ```bash
+   cd apire-compliance-checker && docker-compose up --build
+   ```
 
 ---
 
@@ -124,13 +127,13 @@ RUN_E2E=true ./scripts/test-all.sh
 
 ### "Port already in use"
 If you see this error, it means a service is already running.
-- Run `docker-compose down` to stop all containers.
+- Run `docker-compose -f docker-compose.codespaces.yml down` to stop all containers.
 - Kill any running node processes: `pkill -f node`.
 
 ### "Database connection failed"
 Ensure the database containers are running.
 - Run `docker ps` to check active containers.
-- If missing, run `docker-compose up -d postgres mongo redis`.
+- If missing, run `docker-compose -f docker-compose.codespaces.yml up -d`.
 
 ### "502 Bad Gateway" on URL
 This usually means the application server hasn't finished starting yet. Wait 10-20 seconds and refresh the page.

@@ -6,8 +6,7 @@
   - [Deployment](Deployment)
   - [Contributing](Contributing)
 
-- **Components**
-  - [Core Platform](Core-Platform)
+- **Security Tools**
   - [Prompt Shield](Prompt-Shield)
   - [RedTeam Kit](RedTeam-Kit)
   - [Compliance Checker](Compliance-Checker)

@@ -1,19 +1,6 @@
 #!/bin/bash
 set -e
 
-echo "Building Core Platform..."
-echo "Building Backend..."
-cd backend
-npm install
-npm run build
-cd ..
-
-echo "Building Frontend..."
-cd frontend
-npm install
-npm run build
-cd ..
-
 echo "Building APIRE Prompt Shield..."
 cd apire-prompt-shield
 npm install

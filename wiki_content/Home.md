@@ -2,39 +2,33 @@
 
 > **🚀 Launch in Codespaces**: [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/apireaisecurity/apire-ai-security-platform)
 
-The **Apire AI Security Platform** is a comprehensive, open-source solution designed to secure AI applications against a wide range of threats, including prompt injection, data leakage, and adversarial attacks.
+The **Apire AI Security Platform** is a comprehensive, open-source suite of security tools designed to protect AI applications against a wide range of threats, including prompt injection, data leakage, and adversarial attacks.
 
 ## 🎯 Why Apire?
 
 - **🛡️ Comprehensive Protection**: Multi-layered defense against AI-specific threats
 - **⚡ Real-Time Scanning**: Low-latency detection (<100ms response time)
-- **� Easy Integration**: RESTful APIs for seamless integration
+- **🔧 Easy Integration**: RESTful APIs for seamless integration
 - **📊 Compliance Ready**: Built-in support for GDPR, HIPAA, EU AI Act
 - **🌐 Open Source**: Community-driven development under MIT license
 
-## �📚 Project Overview
+## 📚 Security Tools
 
-This platform consists of a core management system and three specialized security tools:
+This platform consists of three specialized security tools:
 
-### 1. 🏠 [Core Platform](Core-Platform)
-The central dashboard for authentication, user management, and unified reporting.
-- JWT-based authentication
-- Multi-tenant support
-- Centralized logging and monitoring
-
-### 2. 🛡️ [Prompt Shield](Prompt-Shield)
+### 1. 🛡️ [Prompt Shield](Prompt-Shield)
 A real-time defense system against prompt injection and jailbreak attempts.
 - Injection pattern detection
 - Jailbreak prevention (DAN, roleplay attacks)
 - PII scanning and redaction
 
-### 3. ⚔️ [RedTeam Kit](RedTeam-Kit)
+### 2. ⚔️ [RedTeam Kit](RedTeam-Kit)
 An advanced toolkit for adversarial testing and security auditing of LLMs.
 - Pre-built attack scenarios
 - Automated fuzzing
 - Comprehensive reporting
 
-### 4. ✅ [Compliance Checker](Compliance-Checker)
+### 3. ✅ [Compliance Checker](Compliance-Checker)
 An automated scanner for regulatory compliance (GDPR, HIPAA, EU AI Act).
 - Policy validation
 - Automated audits
@@ -59,8 +53,7 @@ Choose your path:
 - 🧪 **[Testing Guide](https://github.com/apireaisecurity/apire-ai-security-platform/blob/main/docs/TESTING.md)**: Run tests and validate your setup
 - 🚀 **[Deployment Guide](Deployment)**: Production deployment options
 
-### Component Guides
-- **[Core Platform](Core-Platform)**: Authentication and user management
+### Tool Guides
 - **[Prompt Shield](Prompt-Shield)**: Real-time injection detection
 - **[RedTeam Kit](RedTeam-Kit)**: Adversarial testing tools
 - **[Compliance Checker](Compliance-Checker)**: Regulatory compliance scanner

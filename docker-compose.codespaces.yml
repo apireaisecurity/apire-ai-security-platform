@@ -2,44 +2,6 @@ version: '3.8'
 
 services:
   # ---------------------------------------------------------------------------
-  # Core Platform
-  # ---------------------------------------------------------------------------
-  core-backend:
-    build: ./backend
-    ports:
-      - "3000:3000"
-    environment:
-      - PORT=3000
-      - JWT_SECRET=dev_secret
-      - DATABASE_URL=postgres://postgres:postgres@core-postgres:5432/apire_core
-    depends_on:
-      - core-postgres
-    volumes:
-      - ./backend/src:/app/src
-
-  core-frontend:
-    build: ./frontend
-    ports:
-      - "5173:5173"
-    environment:
-      - VITE_API_URL=http://localhost:3000
-    volumes:
-      - ./frontend/src:/app/src
-    depends_on:
-      - core-backend
-
-  core-postgres:
-    image: postgres:15-alpine
-    environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
-      - POSTGRES_DB=apire_core
-    ports:
-      - "5432:5432"
-    volumes:
-      - core_postgres_data:/var/lib/postgresql/data
-
-  # ---------------------------------------------------------------------------
   # Prompt Shield
   # ---------------------------------------------------------------------------
   shield-api:
@@ -159,7 +121,6 @@ services:
       - "15672:15672"
 
 volumes:
-  core_postgres_data:
   shield_postgres_data:
   compliance_postgres_data:
   redteam_mongo_data:

@@ -18,11 +18,12 @@ Codespaces will automatically forward the following ports. You can access them v
 
 | Application            | Description               | Port   |
 | :--------------------- | :------------------------ | :----- |
-| **Core Dashboard**     | Main Platform UI          | `5173` |
-| **Core API**           | Authentication & Scanning | `3000` |
-| **Prompt Shield**      | Injection Testing UI      | `3002` |
-| **RedTeam Kit**        | Attack Simulation UI      | `3006` |
-| **Compliance Checker** | Policy Scanning UI        | `3004` |
+| **Prompt Shield Web**  | Injection Testing UI      | `3002` |
+| **Prompt Shield API**  | Shield Backend API        | `3001` |
+| **RedTeam Kit Web**    | Attack Simulation UI      | `3006` |
+| **RedTeam Kit API**    | RedTeam Backend API       | `3005` |
+| **Compliance Web**     | Policy Scanning UI        | `3004` |
+| **Compliance API**     | Compliance Backend API    | `3003` |
 
 ## 🛠️ Development Workflow
 
@@ -43,7 +44,7 @@ To run the full test suite:
 We have pre-configured launch tasks for VS Code.
 
 1. Go to the **Run and Debug** view (Ctrl+Shift+D).
-2. Select a configuration (e.g., "Debug Core Backend").
+2. Select a configuration for a specific tool.
 3. Press **F5** to start debugging.
 
 ## 🐳 Docker Support

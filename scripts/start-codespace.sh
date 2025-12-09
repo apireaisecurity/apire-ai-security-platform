@@ -2,7 +2,7 @@
 set -e
 
 echo "🚀 Starting Apire AI Security Platform in Codespaces..."
-echo "This will start all services: Core, Prompt Shield, Compliance Checker, and RedTeam Kit."
+echo "This will start: Prompt Shield, Compliance Checker, and RedTeam Kit."
 echo "Please wait while containers are built and started..."
 
 docker-compose -f docker-compose.codespaces.yml up --build -d
@@ -10,8 +10,6 @@ docker-compose -f docker-compose.codespaces.yml up --build -d
 echo "✅ All services started!"
 echo ""
 echo "🌍 Access your applications:"
-echo "   - Core Dashboard:      http://localhost:5173"
-echo "   - Core API:            http://localhost:3000"
 echo "   - Prompt Shield Web:   http://localhost:3002"
 echo "   - Prompt Shield API:   http://localhost:3001"
 echo "   - Compliance Web:      http://localhost:3004"

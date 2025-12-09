@@ -1,6 +1,6 @@
 # Architecture Overview
 
-The Apire AI Security Platform follows a **microservices architecture**, allowing each tool to operate independently while sharing a common authentication and reporting layer.
+The Apire AI Security Platform follows a **microservices architecture**, allowing each tool to operate independently with its own backend, frontend, and data layer.
 
 ## 🎯 Design Principles
 
@@ -19,166 +19,215 @@ The Apire AI Security Platform follows a **microservices architecture**, allowin
                  ▼
 ┌────────────────────────────────────────────────────────────┐
 │              Gateway (Nginx / Ingress)                      │
-└───┬────────┬──────────┬──────────┬──────────────────────────┘
-    │        │          │          │
-    │ /      │ /shield  │ /redteam │ /compliance
-    ▼        ▼          ▼          ▼
-┌──────┐ ┌────────┐ ┌───────────┐ ┌──────────────┐
-│ Core │ │Prompt  │ │  RedTeam  │ │  Compliance  │
-│  UI  │ │Shield  │ │    Kit    │ │   Checker    │
-│      │ │   UI   │ │     UI    │ │      UI      │
-└──┬───┘ └───┬────┘ └─────┬─────┘ └──────┬───────┘
-   │         │            │               │
-   │ /api/   │ /api/      │ /api/         │ /api/
-   │         │ shield     │ redteam       │ compliance
-   ▼         ▼            ▼               ▼
+└────────┬──────────┬──────────┬──────────────────────────────┘
+         │          │          │
+  /shield│   /redteam│   /compliance
+         ▼          ▼          ▼
+      ┌────────┐ ┌───────────┐ ┌──────────────┐
+      │Prompt  │ │  RedTeam  │ │  Compliance  │
+      │Shield  │ │    Kit    │ │   Checker    │
+      │   UI   │ │     UI    │ │      UI      │
+      └───┬────┘ └─────┬─────┘ └──────┬───────┘
+          │            │               │
+   /api/  │     /api/  │        /api/  │
+   shield │     redteam│     compliance│
+          ▼            ▼               ▼
 ┌─────────────────────────────────────────────────────────────┐
 │                   Backend Services                           │
-│  ┌──────────┐  ┌──────────┐  ┌─────────┐  ┌─────────────┐ │
-│  │  Core    │  │ Shield   │  │ RedTeam │  │ Compliance  │ │
-│  │  API     │  │  API     │  │   API   │  │     API     │ │
-│  │(Express) │  │(Express) │  │(NestJS) │  │  (Express)  │ │
-│  └────┬─────┘  └────┬─────┘  └────┬────┘  └──────┬──────┘ │
-└───────┼─────────────┼─────────────┼───────────────┼────────┘
-        │             │             │               │
-        ▼             ▼             ▼               ▼
+│  ┌──────────┐  ┌─────────┐  ┌─────────────┐                │
+│  │ Shield   │  │ RedTeam │  │ Compliance  │                │
+│  │  API     │  │   API   │  │     API     │                │
+│  │(Express) │  │(NestJS) │  │  (Express)  │                │
+│  └────┬─────┘  └────┬────┘  └──────┬──────┘                │
+└───────┼─────────────┼───────────────┼────────────────────────┘
+        │             │               │
+        ▼             ▼               ▼
 ┌─────────────────────────────────────────────────────────────┐
 │                      Data Layer                              │
-│  ┌──────────┐  ┌──────────┐  ┌─────────┐  ┌─────────────┐ │
-│  │PostgreSQL│  │PostgreSQL│  │ MongoDB │  │  PostgreSQL │ │
-│  │  +       │  │  +       │  │   +     │  │     +       │ │
-│  │          │  │  Redis   │  │RabbitMQ │  │Elasticsearch│ │
-│  └──────────┘  └──────────┘  └─────────┘  └─────────────┘ │
+│  ┌──────────┐  ┌─────────┐  ┌─────────────┐                │
+│  │PostgreSQL│  │ MongoDB │  │  PostgreSQL │                │
+│  │  +       │  │   +     │  │     +       │                │
+│  │  Redis   │  │RabbitMQ │  │Elasticsearch│                │
+│  └──────────┘  └─────────┘  └─────────────┘                │
 └─────────────────────────────────────────────────────────────┘
 ```
 
-## Shared Components
+## Tool Components
 
-### 🔐 Authentication
--   **JWT-based Auth**: The Core Platform issues JWT tokens upon login.
--   **Shared Secret**: All microservices share a `JWT_SECRET` to validate tokens.
--   **Middleware**: Each service implements middleware to protect API routes.
--   **Token Expiry**: Configurable expiration (default: 24 hours)
+### 🛡️ Prompt Shield
+-   **Frontend**: React UI for testing prompt injections
+-   **Backend**: Express.js API with multiple detection algorithms
+-   **Database**: PostgreSQL for analysis logs, Redis for caching
+-   **Port**: Frontend on 3002, API on 3001
 
-**Authentication Flow:**
-```
-1. User → POST /api/v1/auth/login → Core API
-2. Core API validates credentials
-3. Core API → JWT Token → User
-4. User → Request + JWT → Any Service
-5. Service validates JWT signature
-6. Service → Response (if valid)
-```
+### 🎯 RedTeam Kit
+-   **Frontend**: React UI for attack simulation
+-   **Backend**: NestJS API for orchestrating attacks
+-   **Database**: MongoDB for scenarios/reports, RabbitMQ for async jobs
+-   **Port**: Frontend on 3006, API on 3005
 
-### 🏗️ Infrastructure
--   **Docker**: Each service is containerized.
--   **Docker Compose**: Orchestrates the local development environment.
--   **Kubernetes**: Production deployment manifests are provided for all services.
+### ✅ Compliance Checker
+-   **Frontend**: React UI for compliance scanning
+-   **Backend**: Express.js API for policy audits
+-   **Database**: PostgreSQL for audit logs, Elasticsearch for full-text search
+-   **Port**: Frontend on 3004, API on 3003
+
+## 🏗️ Infrastructure
+-   **Docker**: Each service is containerized
+-   **Docker Compose**: Orchestrates the local development environment
+-   **Kubernetes**: Production deployment manifests are provided for all services
 -   **Nginx/Ingress**: Reverse proxy for routing requests
 
-### 📊 Observability
+## 📊 Observability
 - **Logging**: Structured JSON logs with Winston
 - **Metrics**: Prometheus-compatible endpoints
-- **Tracing**: OpenTelemetry support (planned)
-- **Health Checks**: `/health` endpoint on all services
+- **Tracing**: OpenTelemetry support (optional)
 
-## Service Communication
+## Component Communication
 
-### API Gateway Pattern
-All external traffic goes through a gateway that:
-- Routes requests to appropriate services
-- Handles SSL termination
-- Provides rate limiting
-- Enforces CORS policies
+Each tool operates independently with its own API. Integration patterns:
 
-### Inter-Service Communication
-Services can communicate directly when needed:
-- **Synchronous**: REST APIs
-- **Asynchronous**: Message queues (RabbitMQ)
-
-## Data Flow
-
-### User Authentication Flow
-1.  **User Login**: User logs in via Core Dashboard → Core API.
-2.  **Token Issue**: Core API validates credentials and returns a JWT.
-3.  **Token Storage**: Frontend stores JWT in localStorage/cookie.
-4.  **Tool Access**: User navigates to a tool (e.g., Prompt Shield).
-5.  **Authenticated Request**: Tool's frontend sends JWT in Authorization header.
-6.  **Validation**: Backend validates the JWT signature using shared secret.
-7.  **Execution**: Tool performs its specific security task (scan, attack, check).
-
-### Security Scanning Flow (Prompt Shield Example)
+### 1. **Direct API Calls**
+```javascript
+// Example: Call Shield API from your app
+const response = await fetch('http://shield-api:3001/api/v1/test', {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({ input: userPrompt })
+});
 ```
-User Input → Frontend → API (POST /api/v1/test)
-                ↓
-           Validation Layer
-                ↓
-           Pattern Matching
-                ↓
-           Risk Calculation
-                ↓
-           Database Logging
-                ↓
-           Response → Frontend → User
+
+### 2. **Gateway Routing**
+```nginx
+location /shield/ {
+  proxy_pass http://shield-api:3001/;
+}
+location /redteam/ {
+  proxy_pass http://redteam-api:3005/;
+}
+location /compliance/ {
+  proxy_pass http://compliance-api:3003/;
+}
+```
+
+### 3. **SDK Integration** (Coming Soon)
+```javascript
+import { PromptShield, RedTeamKit, ComplianceChecker } from '@apire/sdk';
+
+const shield = new PromptShield({ apiKey: 'your-key' });
+const result = await shield.analyze(userInput);
+```
+
+## Data Persistence
+
+Each tool manages its own data:
+
+| Tool | Storage | Purpose |
+|------|---------|---------|
+| **Prompt Shield** | PostgreSQL + Redis | Analysis logs + caching |
+| **RedTeam Kit** | MongoDB + RabbitMQ | Scenarios + async tasks |
+| **Compliance Checker** | PostgreSQL + Elasticsearch | Audit logs + search |
+
+## Deployment Options
+
+### 🐳 Docker Compose (Development)
+```bash
+docker-compose up -d
+```
+Starts all services locally with default configurations.
+
+### ☸️ Kubernetes (Production)
+```bash
+kubectl apply -k kubernetes/
+```
+Deploys services to a K8s cluster with:
+- Load balancing
+- Auto-scaling
+- Health checks
+- Resource limits
+
+### 🎯 Tool-Specific Deployment
+Each tool can be deployed independently:
+```bash
+cd apire-prompt-shield
+docker-compose up -d
+```
+
+## Security Architecture
+
+### Network Isolation
+- Each tool runs in its own network namespace
+- Inter-service communication via internal networks only
+- Public exposure only through gateway/ingress
+
+### Data Protection
+- Environment variables for sensitive config
+- Secrets management via Docker Secrets or K8s Secrets
+- Database encryption at rest (configurable)
+- TLS/HTTPS for all external communication
+
+### API Security
+- Rate limiting on all endpoints
+- Input validation and sanitization
+- CORS configuration
+- Optional API key authentication
+
+## Scalability
+
+### Horizontal Scaling
+Each service can scale independently:
+```bash
+docker-compose up --scale shield-api=3
+```
+
+### Caching Strategy
+- Redis for frequently accessed data
+- CDN for static assets
+- API response caching with TTL
+
+### Database Optimization
+- Connection pooling
+- Query optimization
+- Read replicas for high-load scenarios
+- Indexing on frequently queried fields
+
+## Monitoring & Health Checks
+
+All services expose health endpoints:
+```
+GET /health       - Basic liveness check
+GET /health/ready - Readiness check (DB connections, etc.)
+GET /metrics      - Prometheus metrics
+```
+
+Example health check response:
+```json
+{
+  "status": "healthy",
+  "timestamp": "2024-01-01T00:00:00Z",
+  "services": {
+    "database": "connected",
+    "cache": "connected"
+  },
+  "uptime": 3600
+}
 ```
 
 ## Technology Stack
 
-| Component | Technologies |
-|-----------|-------------|
-| **Frontend** | React, Vite, Tailwind CSS, Next.js (RedTeam) |
-| **Backend** | Node.js, Express, TypeScript, NestJS (RedTeam) |
+| Layer | Technologies |
+|-------|-------------|
+| **Frontend** | React, TypeScript, Vite, TailwindCSS |
+| **Backend** | Node.js, Express, NestJS, TypeScript |
 | **Databases** | PostgreSQL, MongoDB, Redis, Elasticsearch |
-| **Testing** | Jest, Vitest, Playwright |
-| **Container** | Docker, Docker Compose |
-| **Orchestration** | Kubernetes, Helm (planned) |
-| **CI/CD** | GitHub Actions |
+| **Messaging** | RabbitMQ |
+| **Containerization** | Docker, Docker Compose |
+| **Orchestration** | Kubernetes |
+| **Gateway** | Nginx |
+| **Testing** | Jest, Playwright |
+| **Logging** | Winston |
 
-## Deployment Topologies
-
-### Development (Local)
-- All services on `localhost`
-- Docker Compose orchestration
-- Hot reload enabled
-- Shared network bridge
-
-### Staging/Production (Kubernetes)
-- Multi-pod deployment
-- Service mesh (optional)
-- Horizontal pod autoscaling
-- External load balancer
-- Persistent volume claims
-
-## Security Architecture
-
-### Defense in Depth
-1. **Network Layer**: TLS/SSL encryption, firewall rules
-2. **API Gateway**: Rate limiting, CORS, authentication
-3. **Application Layer**: Input validation, parameterized queries
-4. **Data Layer**: Encryption at rest, access controls
-
-### Secrets Management
-- Environment variables for configuration
-- Kubernetes secrets for sensitive data
-- Never hardcode credentials
-- Rotate secrets regularly
-
-## Performance Considerations
-
-### Caching Strategy
-- **Redis**: Session data, frequent queries
-- **CDN**: Static assets (frontend)
-- **Application**: Computed risk scores (TTL: 5 minutes)
-
-### Scalability
-Each service can scale independently:
-- **Core API**: Scale for user load
-- **Prompt Shield**: Scale for scan volume
-- **RedTeam Kit**: Scale for concurrent simulations
-- **Compliance**: Scale for audit frequency
-
-## Next Steps
-
-- 📖 **[Deployment Guide](Deployment)**: Learn how to deploy this architecture
-- 🔌 **[API Reference](API-Reference)**: Explore the API endpoints
-- 🛠️ **[Contributing](Contributing)**: Help us improve the architecture
+## Further Reading
+- [Deployment Guide](Deployment)
+- [Getting Started](Getting-Started)
+- [API Reference](API-Reference)

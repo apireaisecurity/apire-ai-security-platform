@@ -47,10 +47,12 @@ For scalable, clustered deployments, use the provided Kubernetes manifests.
 
 | Service | CPU Request | Memory Request |
 | :--- | :--- | :--- |
-| Core Backend | 250m | 512Mi |
-| Prompt Shield | 250m | 512Mi |
-| RedTeam Kit | 500m | 1Gi |
-| Compliance Checker | 250m | 512Mi |
+| Prompt Shield API | 250m | 512Mi |
+| Prompt Shield Web | 100m | 256Mi |
+| RedTeam Kit API | 500m | 1Gi |
+| RedTeam Kit Web | 100m | 256Mi |
+| Compliance Checker API | 250m | 512Mi |
+| Compliance Checker Web | 100m | 256Mi |
 | Databases | Varies | Varies |
 
 ## CI/CD

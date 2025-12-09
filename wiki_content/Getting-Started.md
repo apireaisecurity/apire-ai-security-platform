@@ -51,11 +51,12 @@ Once running, the services are available at:
 
 | Service | URL | Description |
 | :--- | :--- | :--- |
-| **Core Dashboard** | `http://localhost:5173` | Main UI |
-| **Core API** | `http://localhost:3000` | Auth & Management API |
-| **Prompt Shield** | `http://localhost:3002` | Injection Testing UI |
-| **RedTeam Kit** | `http://localhost:3006` | Attack Simulation UI |
-| **Compliance Checker** | `http://localhost:3004` | Policy Scanner UI |
+| **Prompt Shield Web** | `http://localhost:3002` | Injection Testing UI |
+| **Prompt Shield API** | `http://localhost:3001` | Shield API endpoints |
+| **RedTeam Kit Web** | `http://localhost:3006` | Attack Simulation UI |
+| **RedTeam Kit API** | `http://localhost:3005` | RedTeam API endpoints |
+| **Compliance Checker Web** | `http://localhost:3004` | Policy Scanner UI |
+| **Compliance Checker API** | `http://localhost:3003` | Compliance API endpoints |
 
 ## 🧪 Running Tests
 
