@@ -3,10 +3,45 @@
 This document provides an overview of the API endpoints available across the three security tools in the Apire AI Security Platform.
 
 ## Table of Contents
+- [Security & Authentication](#security--authentication)
 - [Prompt Shield API](#prompt-shield-api)
 - [RedTeam Kit API](#redteam-kit-api)
 - [Compliance Checker API](#compliance-checker-api)
 - [Common Patterns](#common-patterns)
+
+---
+
+## Security & Authentication
+
+### API Key Authentication
+All services support API key authentication. To enable it, set `REQUIRE_API_KEY=true` in your environment variables.
+
+**Header**: `X-API-Key: <your-api-key>`
+
+**Example Request**:
+```bash
+curl -X POST http://localhost:3001/api/v1/test \
+  -H "Content-Type: application/json" \
+  -H "X-API-Key: your-secret-key" \
+  -d '{"input": "test prompt"}'
+```
+
+### Rate Limiting
+Rate limits are configured per service to prevent abuse. Default limits:
+
+| Service | Limit | Window | Env Variable |
+|---------|-------|--------|--------------|
+| Prompt Shield | 100 req | 1 min | `RATE_LIMIT_WINDOW_MS`, `RATE_LIMIT_MAX` |
+| RedTeam Kit | 10 req | 1 hour | `RATE_LIMIT_WINDOW_MS`, `RATE_LIMIT_MAX` |
+| Compliance Checker | 20 req | 1 hour | `RATE_LIMIT_WINDOW_MS`, `RATE_LIMIT_MAX` |
+
+### CORS Configuration
+Cross-Origin Resource Sharing (CORS) is enabled by default. In production, restrict allowed origins using the `CORS_ORIGINS` environment variable.
+
+```bash
+# Example .env
+CORS_ORIGINS=https://your-frontend-domain.com,https://admin.your-domain.com
+```
 
 ---
 

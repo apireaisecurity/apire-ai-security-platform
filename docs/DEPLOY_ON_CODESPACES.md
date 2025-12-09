@@ -50,7 +50,37 @@ The platform consists of three specialized security tools, each running on speci
 
 ---
 
-## 4. Accessing the Applications
+## 4. Environment Configuration
+
+Each tool can be configured via environment variables. The default configuration works out-of-the-box for Codespaces.
+
+### Prompt Shield (Backend)
+| Variable | Default | Description |
+| :--- | :--- | :--- |
+| `PORT` | `3001` | API Server Port |
+| `REQUIRE_API_KEY` | `false` | Enable API Key Auth |
+| `API_KEY` | `dev-secret-key` | Secret Key for Auth |
+| `CORS_ORIGINS` | `http://localhost:3002` | Allowed Frontend Origin |
+
+### RedTeam Kit (Backend)
+| Variable | Default | Description |
+| :--- | :--- | :--- |
+| `PORT` | `3005` | API Server Port |
+| `REQUIRE_API_KEY` | `false` | Enable API Key Auth |
+| `API_KEY` | `dev-secret-key` | Secret Key for Auth |
+| `CORS_ORIGINS` | `http://localhost:3006` | Allowed Frontend Origin |
+
+### Compliance Checker (Backend)
+| Variable | Default | Description |
+| :--- | :--- | :--- |
+| `PORT` | `3003` | API Server Port |
+| `REQUIRE_API_KEY` | `false` | Enable API Key Auth |
+| `API_KEY` | `dev-secret-key` | Secret Key for Auth |
+| `CORS_ORIGINS` | `http://localhost:3004` | Allowed Frontend Origin |
+
+---
+
+## 5. Accessing the Applications
 GitHub Codespaces automatically forwards ports to public URLs. You can access them via the **PORTS** tab in the bottom panel of VS Code.
 
 | Application | Port | Access URL |
@@ -66,7 +96,7 @@ GitHub Codespaces automatically forwards ports to public URLs. You can access th
 
 ---
 
-## 5. Running the Full Stack
+## 6. Running the Full Stack
 By default, the setup script builds the code but does not start the servers to save resources.
 
 ### Run All Tools via Docker (Recommended)
@@ -101,7 +131,7 @@ If you want to work on a specific tool:
 
 ---
 
-## 6. Testing & Validation
+## 7. Testing & Validation
 We have a comprehensive test suite pre-configured.
 
 ### Run All Tests
@@ -123,7 +153,7 @@ RUN_E2E=true ./scripts/test-all.sh
 
 ---
 
-## 7. Troubleshooting
+## 8. Troubleshooting
 
 ### "Port already in use"
 If you see this error, it means a service is already running.
