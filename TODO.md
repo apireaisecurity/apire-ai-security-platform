@@ -29,7 +29,7 @@ This TODO focuses on this single repo. Phase 1 reflects the current MVP; Phase 2
   - [x] `docs/ARCHITECTURE.md`, `docs/API.md`, `docs/TESTING.md`
   - [x] Issue/PR templates, `SECURITY.md`, `CODEOWNERS`
 
-## Phase 2: Quality, CI, and testing hardening (In Progress)
+## Phase 2: Quality, CI, and testing hardening (Completed)
 
 ### 2.1 CI & dependency hygiene ✅
 
@@ -47,6 +47,36 @@ This TODO focuses on this single repo. Phase 1 reflects the current MVP; Phase 2
   - [x] Configure ESLint 9 + Prettier in backend
   - [x] Configure ESLint 9 + Prettier in frontend
   - [x] Run lint jobs in CI and fail on errors
+
+## Phase 3: Security & Runtime Hardening (Completed)
+
+- [x] **Container Security**
+  - [x] Run containers as non-root user
+  - [x] Minimize base images
+- [x] **Application Security**
+  - [x] Implement rate limiting
+  - [x] Add API key authentication
+  - [x] Configure security headers (Helmet)
+- [x] **Infrastructure Security**
+  - [x] Validate Kubernetes manifests
+  - [x] Add network policies (placeholder)
+
+## Phase 4: Release Maturity (Completed)
+
+- [x] **Release Automation**
+  - [x] Create release workflow
+  - [x] Automate changelog generation
+- [x] **Observability**
+  - [x] Add Prometheus/Grafana stack
+  - [x] Configure basic metrics
+- [x] **SDK**
+  - [x] Create initial SDK structure
+  - [x] Add basic client implementation
+- [x] **Governance**
+  - [x] Add CONTRIBUTING.md
+  - [x] Update CODEOWNERS
+  - [x] Add issue templates
+
 
 ### 2.2 Deeper automated testing ✅
 
