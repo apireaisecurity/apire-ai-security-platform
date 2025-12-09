@@ -1,18 +1,81 @@
 version: 2
 updates:
+  # Maintain dependencies for GitHub Actions
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
       interval: "weekly"
+    groups:
+      github-actions:
+        patterns:
+          - "*"
+
+  # Root npm dependencies
   - package-ecosystem: "npm"
     directory: "/"
     schedule:
       interval: "weekly"
+    groups:
+      root-deps:
+        patterns:
+          - "*"
+
+  # Prompt Shield Backend
   - package-ecosystem: "npm"
-    directory: "/backend"
+    directory: "/apire-prompt-shield/backend"
     schedule:
       interval: "weekly"
+    groups:
+      prompt-shield-backend:
+        patterns:
+          - "*"
+
+  # Prompt Shield Frontend
   - package-ecosystem: "npm"
-    directory: "/frontend"
+    directory: "/apire-prompt-shield/frontend"
     schedule:
       interval: "weekly"
+    groups:
+      prompt-shield-frontend:
+        patterns:
+          - "*"
+
+  # RedTeam Kit Backend
+  - package-ecosystem: "npm"
+    directory: "/apire-redteam-kit/backend"
+    schedule:
+      interval: "weekly"
+    groups:
+      redteam-kit-backend:
+        patterns:
+          - "*"
+
+  # RedTeam Kit Frontend
+  - package-ecosystem: "npm"
+    directory: "/apire-redteam-kit/frontend"
+    schedule:
+      interval: "weekly"
+    groups:
+      redteam-kit-frontend:
+        patterns:
+          - "*"
+
+  # Compliance Checker Backend
+  - package-ecosystem: "npm"
+    directory: "/apire-compliance-checker/backend"
+    schedule:
+      interval: "weekly"
+    groups:
+      compliance-checker-backend:
+        patterns:
+          - "*"
+
+  # Compliance Checker Frontend
+  - package-ecosystem: "npm"
+    directory: "/apire-compliance-checker/frontend"
+    schedule:
+      interval: "weekly"
+    groups:
+      compliance-checker-frontend:
+        patterns:
+          - "*"

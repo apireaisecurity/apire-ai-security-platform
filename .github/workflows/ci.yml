@@ -7,30 +7,33 @@ on:
     branches: [ main ]
 
 jobs:
-  build:
+  lint-and-test:
+    name: Lint & Test
     runs-on: ubuntu-latest
-
     strategy:
       matrix:
-        node-version: [18.x]
-
-    steps:
-    - uses: actions/checkout@v3
+        workspace: 
+          - apire-prompt-shield/backend
+          - apire-prompt-shield/frontend
+          - apire-redteam-kit/backend
+          - apire-redteam-kit/frontend
+          - apire-compliance-checker/backend
+          - apire-compliance-checker/frontend
     
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v3
-      with:
-        node-version: ${{ matrix.node-version }}
-        cache: 'npm'
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          
+      - name: Install Dependencies
+        run: npm ci
         
-    - name: Install dependencies
-      run: npm ci
-      
-    - name: Lint
-      run: npm run lint
-      
-    - name: Build
-      run: npm run build
-      
-    - name: Test
-      run: npm test
+      - name: Lint
+        run: npm run lint -w ${{ matrix.workspace }} --if-present
+        
+      - name: Test
+        run: npm test -w ${{ matrix.workspace }} --if-present

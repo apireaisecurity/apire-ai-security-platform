@@ -1,4 +1,7 @@
 [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/apireaisecurity/apire-ai-security-platform)
+[![CI](https://github.com/apireaisecurity/apire-ai-security-platform/actions/workflows/ci.yml/badge.svg)](https://github.com/apireaisecurity/apire-ai-security-platform/actions/workflows/ci.yml)
+[![Security Audit](https://github.com/apireaisecurity/apire-ai-security-platform/actions/workflows/security.yml/badge.svg)](https://github.com/apireaisecurity/apire-ai-security-platform/actions/workflows/security.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 # Apire AI Security Platform
 
@@ -9,6 +12,22 @@ The Apire AI Security Platform is a comprehensive suite of security tools design
 - **🛡️ Prompt Shield**: Real-time defense against prompt injection and jailbreak attempts
 - **⚔️ RedTeam Kit**: Advanced adversarial testing and security auditing toolkit for LLMs
 - **✅ Compliance Checker**: Automated regulatory compliance scanner (GDPR, HIPAA, EU AI Act)
+
+## ⚡ Quickstart
+
+Start all services with Docker Compose:
+
+```bash
+./scripts/start-codespace.sh
+```
+
+Access the tools:
+
+| Tool | Web Interface | API Endpoint |
+|------|--------------|--------------|
+| **Prompt Shield** | http://localhost:3002 | http://localhost:3001 |
+| **RedTeam Kit** | http://localhost:3006 | http://localhost:3005 |
+| **Compliance Checker** | http://localhost:3004 | http://localhost:3003 |
 
 ## 🛠️ Tech Stack
 
