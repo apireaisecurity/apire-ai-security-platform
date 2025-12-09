@@ -1,0 +1,20 @@
+{
+  "name": "@apire/sdk",
+  "version": "0.1.0",
+  "description": "Official SDK for Apire AI Security Platform",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc"
+  },
+  "keywords": [
+    "ai",
+    "security",
+    "sdk"
+  ],
+  "author": "Apire AI Security",
+  "license": "MIT",
+  "devDependencies": {
+    "typescript": "^5.0.0"
+  }
+}

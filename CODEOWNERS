@@ -1,1 +1,4 @@
-* @apireaisecurity/maintainers
+* @apire-ai-security/maintainers
+/apire-prompt-shield/ @apire-ai-security/prompt-shield-team
+/apire-compliance-checker/ @apire-ai-security/compliance-team
+/apire-redteam-kit/ @apire-ai-security/redteam-team
