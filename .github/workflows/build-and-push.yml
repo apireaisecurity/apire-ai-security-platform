@@ -1,0 +1,75 @@
+name: Build and Push Images
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - service: core-backend
+            context: backend
+            image: backend
+          - service: core-frontend
+            context: frontend
+            image: frontend
+          - service: prompt-shield-backend
+            context: apire-prompt-shield/backend
+            image: prompt-shield-backend
+          - service: prompt-shield-frontend
+            context: apire-prompt-shield/frontend
+            image: prompt-shield-frontend
+          - service: compliance-checker-backend
+            context: apire-compliance-checker/backend
+            image: compliance-checker-backend
+          - service: compliance-checker-frontend
+            context: apire-compliance-checker/frontend
+            image: compliance-checker-frontend
+          - service: redteam-kit-backend
+            context: apire-redteam-kit/backend
+            image: redteam-kit-backend
+          - service: redteam-kit-frontend
+            context: apire-redteam-kit/frontend
+            image: redteam-kit-frontend
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Log in to the Container registry
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Extract metadata (tags, labels) for Docker
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}/${{ matrix.image }}
+          tags: |
+            type=raw,value=latest,enable=${{ github.ref == 'refs/heads/main' }}
+            type=sha,prefix=sha-
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: ${{ matrix.context }}/Dockerfile
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}

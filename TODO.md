@@ -169,6 +169,10 @@ This TODO focuses on this single repo. Phase 1 reflects the current MVP; Phase 2
   - [x] Create RedTeam Kit Manifests (`kubernetes/redteam-kit/`)
   - [x] Create Compliance Checker Manifests (`kubernetes/compliance-checker/`)
   - [x] Update `kustomization.yaml`
+- [x] **CI/CD Pipeline**
+  - [x] Create build and push workflow (`.github/workflows/build-and-push.yml`)
+  - [x] Configure GHCR authentication
+
 
 ## Phase 6: Codespaces Experience (Completed)
 
