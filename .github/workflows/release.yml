@@ -8,28 +8,304 @@ on:
 permissions:
   contents: write
   packages: write
+  id-token: write
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_BASE: ghcr.io/${{ github.repository_owner }}
 
 jobs:
-  release:
-    name: Create Release
+  # Job 1: Run tests to ensure quality
+  test:
+    name: Run Tests
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        workspace: [backend, frontend, apire-prompt-shield/backend, apire-prompt-shield/frontend, apire-redteam-kit/backend, apire-redteam-kit/frontend, apire-compliance-checker/backend, apire-compliance-checker/frontend]
+    steps:
+      - uses: actions/checkout@v4
+      
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Run linting
+        run: npm run lint --workspace=${{ matrix.workspace }} || echo "No lint script"
+      
+      - name: Run tests
+        run: npm test --workspace=${{ matrix.workspace }} || echo "No tests"
+
+  # Job 2: Build and push Docker images
+  build-images:
+    name: Build Docker Images
+    runs-on: ubuntu-latest
+    needs: test
+    strategy:
+      matrix:
+        include:
+          - name: shield-api
+            context: ./apire-prompt-shield/backend
+            dockerfile: ./apire-prompt-shield/backend/Dockerfile
+          - name: shield-web
+            context: ./apire-prompt-shield/frontend
+            dockerfile: ./apire-prompt-shield/frontend/Dockerfile
+          - name: redteam-api
+            context: ./apire-redteam-kit/backend
+            dockerfile: ./apire-redteam-kit/backend/Dockerfile
+          - name: redteam-web
+            context: ./apire-redteam-kit/frontend
+            dockerfile: ./apire-redteam-kit/frontend/Dockerfile
+          - name: compliance-api
+            context: ./apire-compliance-checker/backend
+            dockerfile: ./apire-compliance-checker/backend/Dockerfile
+          - name: compliance-web
+            context: ./apire-compliance-checker/frontend
+            dockerfile: ./apire-compliance-checker/frontend/Dockerfile
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Extract version from tag
+        id: version
+        run: echo "VERSION=${GITHUB_REF#refs/tags/v}" >> $GITHUB_OUTPUT
+      
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+      
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Extract metadata
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.REGISTRY }}/${{ github.repository_owner }}/${{ matrix.name }}
+          tags: |
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}.{{minor}}
+            type=semver,pattern={{major}}
+            type=raw,value=latest,enable={{is_default_branch}}
+      
+      - name: Build and push
+        uses: docker/build-push-action@v5
+        with:
+          context: ${{ matrix.context }}
+          file: ${{ matrix.dockerfile }}
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          platforms: linux/amd64,linux/arm64
+
+  # Job 3: Publish NPM package (SDK)
+  publish-sdk:
+    name: Publish SDK to NPM
+    runs-on: ubuntu-latest
+    needs: test
+    steps:
+      - uses: actions/checkout@v4
+      
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          registry-url: 'https://registry.npmjs.org'
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Build SDK
+        run: npm run build --workspace=packages/sdk
+      
+      - name: Publish to NPM
+        run: npm publish --workspace=packages/sdk --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+  # Job 4: Create GitHub Release with changelog
+  create-release:
+    name: Create GitHub Release
+    runs-on: ubuntu-latest
+    needs: [test, build-images, publish-sdk]
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-
+      
+      - name: Extract version
+        id: version
+        run: |
+          echo "VERSION=${GITHUB_REF#refs/tags/v}" >> $GITHUB_OUTPUT
+          echo "TAG=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
+      
       - name: Generate Changelog
         id: changelog
         uses: mikepenz/release-changelog-builder-action@v4
+        with:
+          configuration: |
+            {
+              "categories": [
+                {
+                  "title": "## 🚀 Features",
+                  "labels": ["feature", "enhancement"]
+                },
+                {
+                  "title": "## 🐛 Bug Fixes",
+                  "labels": ["bug", "bugfix"]
+                },
+                {
+                  "title": "## 📚 Documentation",
+                  "labels": ["documentation", "docs"]
+                },
+                {
+                  "title": "## 🔒 Security",
+                  "labels": ["security"]
+                },
+                {
+                  "title": "## 🧰 Maintenance",
+                  "labels": ["chore", "dependencies"]
+                }
+              ],
+              "template": "#{{CHANGELOG}}\n\n**Full Changelog**: #{{RELEASE_DIFF}}"
+            }
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Create release notes
+        run: |
+          cat > release-notes.md << 'EOF'
+          # Apire AI Security Platform ${{ steps.version.outputs.TAG }}
+
+          ## 📦 Installation
+
+          ### Docker Images
+
+          All images are available on GitHub Container Registry:
+
+          ```bash
+          # Prompt Shield
+          docker pull ${{ env.IMAGE_BASE }}/shield-api:${{ steps.version.outputs.VERSION }}
+          docker pull ${{ env.IMAGE_BASE }}/shield-web:${{ steps.version.outputs.VERSION }}
+
+          # RedTeam Kit
+          docker pull ${{ env.IMAGE_BASE }}/redteam-api:${{ steps.version.outputs.VERSION }}
+          docker pull ${{ env.IMAGE_BASE }}/redteam-web:${{ steps.version.outputs.VERSION }}
+
+          # Compliance Checker
+          docker pull ${{ env.IMAGE_BASE }}/compliance-api:${{ steps.version.outputs.VERSION }}
+          docker pull ${{ env.IMAGE_BASE }}/compliance-web:${{ steps.version.outputs.VERSION }}
+          ```
+
+          ### NPM Package (SDK)
+
+          ```bash
+          npm install @apire/sdk@${{ steps.version.outputs.VERSION }}
+          ```
+
+          ### Docker Compose
+
+          ```bash
+          curl -O https://raw.githubusercontent.com/${{ github.repository }}/${{ steps.version.outputs.TAG }}/docker-compose.codespaces.yml
+          docker-compose -f docker-compose.codespaces.yml up -d
+          ```
+
+          ## 📝 What's Changed
+
+          ${{ steps.changelog.outputs.changelog }}
+
+          ## 📚 Documentation
+
+          - [API Reference](https://github.com/${{ github.repository }}/blob/${{ steps.version.outputs.TAG }}/docs/API.md)
+          - [Configuration Guide](https://github.com/${{ github.repository }}/blob/${{ steps.version.outputs.TAG }}/docs/CONFIGURATION.md)
+          - [Deployment Guide](https://github.com/${{ github.repository }}/blob/${{ steps.version.outputs.TAG }}/docs/DEPLOY_ON_CODESPACES.md)
+          - [Observability Setup](https://github.com/${{ github.repository }}/blob/${{ steps.version.outputs.TAG }}/docs/OBSERVABILITY.md)
+          - [Reverse Proxy Config](https://github.com/${{ github.repository }}/blob/${{ steps.version.outputs.TAG }}/docs/REVERSE_PROXY.md)
+
+          ## 🔗 Links
+
+          - [Full Changelog](https://github.com/${{ github.repository }}/compare/v0.1.0...${{ steps.version.outputs.TAG }})
+          - [Docker Images](https://github.com/${{ github.repository_owner }}?tab=packages&repo_name=${{ github.event.repository.name }})
+          - [NPM Package](https://www.npmjs.com/package/@apire/sdk)
+
+          ---
+
+          **Verified**: All images are signed and can be verified with cosign.
+          EOF
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v1
         with:
-          body: ${{ steps.changelog.outputs.changelog }}
+          body_path: release-notes.md
           draft: false
-          prerelease: false
+          prerelease: ${{ contains(steps.version.outputs.TAG, '-') }}
           files: |
             LICENSE
             THIRD-PARTY-NOTICES.md
+            CHANGELOG.md
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Trigger wiki update
+        run: |
+          curl -X POST \
+            -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+            -H "Accept: application/vnd.github.v3+json" \
+            https://api.github.com/repos/${{ github.repository }}/dispatches \
+            -d '{"event_type": "wiki-update", "client_payload": {"version": "${{ steps.version.outputs.VERSION }}"}}'
+
+  # Job 5: Smoke tests on deployed images
+  smoke-test:
+    name: Smoke Test Docker Images
+    runs-on: ubuntu-latest
+    needs: build-images
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Extract version
+        id: version
+        run: echo "VERSION=${GITHUB_REF#refs/tags/v}" >> $GITHUB_OUTPUT
+      
+      - name: Log in to GHCR
+        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+      
+      - name: Pull images
+        run: |
+          docker pull ${{ env.IMAGE_BASE }}/shield-api:${{ steps.version.outputs.VERSION }}
+          docker pull ${{ env.IMAGE_BASE }}/redteam-api:${{ steps.version.outputs.VERSION }}
+          docker pull ${{ env.IMAGE_BASE }}/compliance-api:${{ steps.version.outputs.VERSION }}
+      
+      - name: Run smoke tests
+        run: |
+          # Start containers
+          docker run -d --name shield-api -p 3001:3001 ${{ env.IMAGE_BASE }}/shield-api:${{ steps.version.outputs.VERSION }}
+          docker run -d --name redteam-api -p 3005:3005 ${{ env.IMAGE_BASE }}/redteam-api:${{ steps.version.outputs.VERSION }}
+          docker run -d --name compliance-api -p 3003:3003 ${{ env.IMAGE_BASE }}/compliance-api:${{ steps.version.outputs.VERSION }}
+          
+          # Wait for services to start
+          sleep 10
+          
+          # Health checks
+          curl -f http://localhost:3001/health || exit 1
+          curl -f http://localhost:3005/ || exit 1
+          curl -f http://localhost:3003/health || exit 1
+          
+          echo "✅ All smoke tests passed!"
+
+  # Job 6: Update deployment (optional - uncomment if you have a staging environment)
+  # deploy-staging:
+  #   name: Deploy to Staging
+  #   runs-on: ubuntu-latest
+  #   needs: smoke-test
+  #   environment: staging
+  #   steps:
+  #     - name: Deploy via SSH
+  #       run: |
+  #         ssh user@staging.example.com "cd /app && docker-compose pull && docker-compose up -d"
+

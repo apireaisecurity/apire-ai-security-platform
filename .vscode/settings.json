@@ -1,0 +1,132 @@
+{
+  // Editor Configuration
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit",
+    "source.organizeImports": "explicit"
+  },
+  "editor.rulers": [100, 120],
+  "editor.tabSize": 2,
+  "editor.insertSpaces": true,
+  "editor.detectIndentation": false,
+
+  // File Associations
+  "files.associations": {
+    "*.yml": "yaml",
+    "*.yaml": "yaml",
+    "Dockerfile*": "dockerfile",
+    ".env*": "dotenv"
+  },
+  
+  "files.exclude": {
+    "**/node_modules": true,
+    "**/dist": true,
+    "**/.next": true,
+    "**/coverage": true,
+    "**/.turbo": true
+  },
+
+  "files.watcherExclude": {
+    "**/node_modules/**": true,
+    "**/dist/**": true,
+    "**/.git/objects/**": true,
+    "**/coverage/**": true
+  },
+
+  // TypeScript Configuration
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "typescript.enablePromptUseWorkspaceTsdk": true,
+  "typescript.preferences.importModuleSpecifier": "relative",
+  "typescript.updateImportsOnFileMove.enabled": "always",
+  "typescript.suggest.autoImports": true,
+
+  // JavaScript Configuration
+  "javascript.updateImportsOnFileMove.enabled": "always",
+  "javascript.suggest.autoImports": true,
+
+  // ESLint Configuration
+  "eslint.enable": true,
+  "eslint.validate": [
+    "javascript",
+    "javascriptreact",
+    "typescript",
+    "typescriptreact",
+    "vue"
+  ],
+  "eslint.workingDirectories": [
+    { "mode": "auto" }
+  ],
+
+  // Prettier Configuration
+  "prettier.enable": true,
+  "prettier.requireConfig": false,
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[json]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[jsonc]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[yaml]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[markdown]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.wordWrap": "on"
+  },
+
+  // Git Configuration
+  "git.enableSmartCommit": true,
+  "git.confirmSync": false,
+  "git.autofetch": true,
+
+  // Search Configuration
+  "search.exclude": {
+    "**/node_modules": true,
+    "**/dist": true,
+    "**/coverage": true,
+    "**/.next": true,
+    "**/playwright-report": true,
+    "**/test-results": true
+  },
+
+  // Terminal Configuration
+  "terminal.integrated.defaultProfile.osx": "zsh",
+  "terminal.integrated.defaultProfile.linux": "bash",
+  "terminal.integrated.defaultProfile.windows": "PowerShell",
+
+  // Docker Configuration
+  "docker.images.label": "Tag",
+  "docker.containers.label": "ContainerName",
+
+  // Test Explorer Configuration
+  "jest.autoRun": "off",
+  "jest.showCoverageOnLoad": false,
+
+  // Path Intellisense
+  "path-intellisense.autoSlashAfterDirectory": true,
+  "path-intellisense.extensionOnImport": false,
+
+  // Tailwind CSS (for frontends)
+  "tailwindCSS.experimental.classRegex": [
+    ["class(?:Name)?\\s*[:=]\\s*['\"`]([^'\"`]*)['\"`]", "['\"`]([^'\"`]*)['\"`]"]
+  ],
+
+  // Vue Configuration (for Compliance Checker frontend)
+  "vetur.validation.template": false,
+  "vetur.validation.script": false,
+  "vetur.validation.style": false,
+
+  // NPM Scripts Explorer
+  "npm.enableRunFromFolder": true,
+  "npm.scriptExplorerAction": "run",
+
+  // Workspace Recommendations
+  "extensions.ignoreRecommendations": false
+}

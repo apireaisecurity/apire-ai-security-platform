@@ -1,0 +1,51 @@
+{
+  "recommendations": [
+    // Essential Extensions
+    "dbaeumer.vscode-eslint",
+    "esbenp.prettier-vscode",
+    "editorconfig.editorconfig",
+    
+    // TypeScript/JavaScript
+    "ms-vscode.vscode-typescript-next",
+    "usernamehw.errorlens",
+    "streetsidesoftware.code-spell-checker",
+    
+    // Git
+    "eamodio.gitlens",
+    "mhutchie.git-graph",
+    
+    // Docker & Kubernetes
+    "ms-azuretools.vscode-docker",
+    "ms-kubernetes-tools.vscode-kubernetes-tools",
+    
+    // Testing
+    "orta.vscode-jest",
+    "hbenl.vscode-test-explorer",
+    
+    // Vue.js (for Compliance Checker)
+    "vue.volar",
+    
+    // React (for Prompt Shield)
+    "dsznajder.es7-react-js-snippets",
+    
+    // Next.js (for RedTeam Kit)
+    "prismalabs.prisma",
+    
+    // API Development
+    "humao.rest-client",
+    "rangav.vscode-thunder-client",
+    
+    // Markdown
+    "yzhang.markdown-all-in-one",
+    "davidanson.vscode-markdownlint",
+    
+    // YAML/JSON
+    "redhat.vscode-yaml",
+    "tamasfe.even-better-toml",
+    
+    // Productivity
+    "christian-kohler.path-intellisense",
+    "visualstudioexptteam.vscodeintellicode",
+    "github.copilot"
+  ]
+}

@@ -1,21 +1,19 @@
-export class ApireClient {
-  private apiKey: string;
-  private baseUrl: string;
+/**
+ * @apire/sdk - Official SDK for Apire AI Security Platform
+ * @version 1.0.0
+ * @license MIT
+ */
 
-  constructor(apiKey: string, baseUrl: string = 'http://localhost:3000') {
-    this.apiKey = apiKey;
-    this.baseUrl = baseUrl;
-  }
+export { ApireClient, ApireClientConfig } from './client';
+export { PromptShieldClient } from './clients/prompt-shield';
+export { RedTeamKitClient } from './clients/redteam-kit';
+export { ComplianceCheckerClient } from './clients/compliance-checker';
 
-  async checkPrompt(prompt: string): Promise<any> {
-    // Placeholder for Prompt Shield API call
-    console.log(`Checking prompt: ${prompt}`);
-    return { safe: true };
-  }
+// Type exports
+export * from './types/prompt-shield';
+export * from './types/redteam-kit';
+export * from './types/compliance-checker';
+export * from './types/common';
 
-  async runScan(target: string): Promise<any> {
-    // Placeholder for Compliance Checker API call
-    console.log(`Scanning target: ${target}`);
-    return { compliant: true };
-  }
-}
+// Error exports
+export * from './errors';

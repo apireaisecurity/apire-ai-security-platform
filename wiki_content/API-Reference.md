@@ -1,5 +1,27 @@
 # API Reference
 
+## ⚠️ Important: Official Documentation
+
+**For the most accurate and up-to-date API documentation, always refer to the primary source:**
+
+📘 **[Official API Documentation](https://github.com/apireaisecurity/apire-ai-security-platform/blob/main/docs/API.md)**
+
+This page provides a high-level overview. The official documentation in `docs/API.md` is updated with every code change and reflects the actual implemented endpoints.
+
+---
+
+## Quick Reference
+
+| Service | Base URL | Primary Endpoints | Documentation |
+|---------|----------|-------------------|---------------|
+| **Prompt Shield** | http://localhost:3001/api/v1 | `POST /tests`<br>`GET /tests/:id` | [View Details](https://github.com/apireaisecurity/apire-ai-security-platform/blob/main/docs/API.md#prompt-shield-api) |
+| **RedTeam Kit** | http://localhost:3005/api/v1 | `GET /scenarios`<br>`GET /scenarios/:id` | [View Details](https://github.com/apireaisecurity/apire-ai-security-platform/blob/main/docs/API.md#redteam-kit-api) |
+| **Compliance Checker** | http://localhost:3003/api/v1 | `POST /scans` | [View Details](https://github.com/apireaisecurity/apire-ai-security-platform/blob/main/docs/API.md#compliance-checker-api) |
+
+---
+
+## Overview
+
 This page provides a high-level overview of the API endpoints available in the Apire AI Security Platform tools.
 
 For the most up-to-date and detailed specification, please refer to the [OpenAPI Specification](https://github.com/apireaisecurity/apire-ai-security-platform/blob/main/docs/API.md) in the repository.
