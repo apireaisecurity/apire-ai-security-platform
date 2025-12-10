@@ -1,0 +1,32 @@
+global:
+  imageRegistry: ghcr.io/apireaisecurity/apire-ai-security-platform
+
+promptShield:
+  api:
+    image: prompt-shield-backend
+    tag: latest
+    port: 3001
+  web:
+    image: prompt-shield-frontend
+    tag: latest
+    port: 3002
+
+complianceChecker:
+  api:
+    image: compliance-checker-backend
+    tag: latest
+    port: 3003
+  web:
+    image: compliance-checker-frontend
+    tag: latest
+    port: 3004
+
+redTeamKit:
+  api:
+    image: redteam-kit-backend
+    tag: latest
+    port: 3005
+  web:
+    image: redteam-kit-frontend
+    tag: latest
+    port: 3006

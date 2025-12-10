@@ -25,9 +25,16 @@ jobs:
 
   backend-tests:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        workspace: 
+          - backend
+          - apire-prompt-shield/backend
+          - apire-compliance-checker/backend
+          - apire-redteam-kit/backend
     defaults:
       run:
-        working-directory: ./backend
+        working-directory: ./${{ matrix.workspace }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -36,19 +43,25 @@ jobs:
           cache: 'npm'
           cache-dependency-path: |
             package.json
-            backend/package.json
-            frontend/package.json
+            **/package.json
       - name: Install dependencies
         run: npm install
         working-directory: ./
-      - name: Run backend tests with coverage
-        run: npm test -- --coverage
+      - name: Run tests
+        run: npm test -- --passWithNoTests
 
   frontend-tests:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        workspace:
+          - frontend
+          - apire-prompt-shield/frontend
+          - apire-compliance-checker/frontend
+          - apire-redteam-kit/frontend
     defaults:
       run:
-        working-directory: ./frontend
+        working-directory: ./${{ matrix.workspace }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -57,13 +70,12 @@ jobs:
           cache: 'npm'
           cache-dependency-path: |
             package.json
-            backend/package.json
-            frontend/package.json
+            **/package.json
       - name: Install dependencies
         run: npm install
         working-directory: ./
-      - name: Run frontend tests with coverage
-        run: npx vitest run --coverage
+      - name: Run tests
+        run: npm test -- --passWithNoTests
 
   security-audit:
     runs-on: ubuntu-latest

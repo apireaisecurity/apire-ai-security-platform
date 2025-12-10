@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: prompt-shield-api
+  labels:
+    app: prompt-shield-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: prompt-shield-api
+  template:
+    metadata:
+      labels:
+        app: prompt-shield-api
+    spec:
+      containers:
+        - name: api
+          image: "{{ .Values.global.imageRegistry }}/{{ .Values.promptShield.api.image }}:{{ .Values.promptShield.api.tag }}"
+          ports:
+            - containerPort: {{ .Values.promptShield.api.port }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: prompt-shield-api
+spec:
+  selector:
+    app: prompt-shield-api
+  ports:
+    - protocol: TCP
+      port: {{ .Values.promptShield.api.port }}
+      targetPort: {{ .Values.promptShield.api.port }}

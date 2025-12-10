@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: compliance-checker-api
+  labels:
+    app: compliance-checker-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: compliance-checker-api
+  template:
+    metadata:
+      labels:
+        app: compliance-checker-api
+    spec:
+      containers:
+        - name: api
+          image: "{{ .Values.global.imageRegistry }}/{{ .Values.complianceChecker.api.image }}:{{ .Values.complianceChecker.api.tag }}"
+          ports:
+            - containerPort: {{ .Values.complianceChecker.api.port }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: compliance-checker-api
+spec:
+  selector:
+    app: compliance-checker-api
+  ports:
+    - protocol: TCP
+      port: {{ .Values.complianceChecker.api.port }}
+      targetPort: {{ .Values.complianceChecker.api.port }}

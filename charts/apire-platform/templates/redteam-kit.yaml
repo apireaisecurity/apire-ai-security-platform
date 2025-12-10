@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: redteam-kit-api
+  labels:
+    app: redteam-kit-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: redteam-kit-api
+  template:
+    metadata:
+      labels:
+        app: redteam-kit-api
+    spec:
+      containers:
+        - name: api
+          image: "{{ .Values.global.imageRegistry }}/{{ .Values.redTeamKit.api.image }}:{{ .Values.redTeamKit.api.tag }}"
+          ports:
+            - containerPort: {{ .Values.redTeamKit.api.port }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: redteam-kit-api
+spec:
+  selector:
+    app: redteam-kit-api
+  ports:
+    - protocol: TCP
+      port: {{ .Values.redTeamKit.api.port }}
+      targetPort: {{ .Values.redTeamKit.api.port }}
